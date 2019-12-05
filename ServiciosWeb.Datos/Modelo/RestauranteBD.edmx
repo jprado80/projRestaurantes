@@ -1,0 +1,720 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BDRestaurantesModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="t_distrito">
+          <Key>
+            <PropertyRef Name="dist_id" />
+          </Key>
+          <Property Name="dist_id" Type="int" Nullable="false" />
+          <Property Name="dist_nombre" Type="nvarchar" MaxLength="70" />
+        </EntityType>
+        <EntityType Name="t_especialidadtipo">
+          <Key>
+            <PropertyRef Name="esti_id" />
+          </Key>
+          <Property Name="esti_id" Type="int" Nullable="false" />
+          <Property Name="esti_descrip" Type="nvarchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="t_estado">
+          <Key>
+            <PropertyRef Name="esta_id" />
+          </Key>
+          <Property Name="esta_id" Type="int" Nullable="false" />
+          <Property Name="esta_tabla" Type="nvarchar" MaxLength="20" />
+          <Property Name="esta_nombre" Type="nvarchar" MaxLength="25" />
+          <Property Name="esta_descrip" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="t_menu">
+          <Key>
+            <PropertyRef Name="menu_id" />
+          </Key>
+          <Property Name="menu_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="menu_nombre" Type="nvarchar" MaxLength="60" />
+          <Property Name="menu_estado" Type="bit" />
+          <Property Name="menu_publicado" Type="bit" />
+        </EntityType>
+        <EntityType Name="t_menudetalle">
+          <Key>
+            <PropertyRef Name="mede_id" />
+          </Key>
+          <Property Name="mede_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="menu_id" Type="bigint" Nullable="false" />
+          <Property Name="prod_id" Type="bigint" Nullable="false" />
+          <Property Name="mede_precio" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="mede_disponible" Type="bit" />
+        </EntityType>
+        <EntityType Name="t_modoatencion">
+          <Key>
+            <PropertyRef Name="moat_id" />
+          </Key>
+          <Property Name="moat_id" Type="int" Nullable="false" />
+          <Property Name="moat_descrip" Type="nvarchar" MaxLength="45" />
+        </EntityType>
+        <EntityType Name="t_pago">
+          <Key>
+            <PropertyRef Name="pago_id" />
+          </Key>
+          <Property Name="pago_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="pago_fechhora" Type="datetime" />
+          <Property Name="pago_nrotarjeta" Type="nvarchar" MaxLength="20" />
+          <Property Name="pago_codseguridad" Type="int" />
+          <Property Name="pago_monto" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="pedi_id" Type="bigint" />
+          <Property Name="usu_id" Type="bigint" />
+          <Property Name="ticta_id" Type="int" />
+          <Property Name="uscta_numero" Type="nvarchar" MaxLength="20" />
+          <Property Name="uscta_titular" Type="nvarchar" MaxLength="70" />
+        </EntityType>
+        <EntityType Name="t_pedido">
+          <Key>
+            <PropertyRef Name="pedi_id" />
+          </Key>
+          <Property Name="pedi_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="pedi_fechhora" Type="datetime" />
+          <Property Name="usua_id" Type="bigint" />
+          <Property Name="rest_ruc" Type="nvarchar" MaxLength="11" />
+          <Property Name="moat_id" Type="int" />
+          <Property Name="pedi_mensaje" Type="nvarchar" MaxLength="150" />
+          <Property Name="pedi_estado" Type="nvarchar" MaxLength="45" />
+          <Property Name="esta_id" Type="int" />
+          <Property Name="pedi_subtotal" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="pedi_precioenvio" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="pedi_descuento" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="pedi_recargo" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="pedi_total" Type="numeric" Precision="18" Scale="2" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'BDRestaurantes.dbo.t_pedidodetalle' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="t_pedidodetalle">
+          <Key>
+            <PropertyRef Name="pedi_id" />
+            <PropertyRef Name="mede_id" />
+          </Key>
+          <Property Name="pedi_id" Type="bigint" Nullable="false" />
+          <Property Name="mede_id" Type="bigint" Nullable="false" />
+          <Property Name="pedi_cant" Type="int" />
+          <Property Name="pedi_importe" Type="numeric" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="t_producto">
+          <Key>
+            <PropertyRef Name="prod_id" />
+          </Key>
+          <Property Name="prod_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="prod_nombre" Type="nvarchar" MaxLength="70" />
+          <Property Name="prod_descrip" Type="nvarchar" MaxLength="200" />
+          <Property Name="prod_precio" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="tico_id" Type="int" />
+          <Property Name="rest_ruc" Type="nvarchar" MaxLength="11" Nullable="false" />
+        </EntityType>
+        <EntityType Name="t_reserva">
+          <Key>
+            <PropertyRef Name="rese_id" />
+          </Key>
+          <Property Name="rese_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="rese_fechhorareg" Type="datetime" />
+          <Property Name="rest_ruc" Type="nvarchar" MaxLength="11" />
+          <Property Name="usua_id" Type="bigint" />
+          <Property Name="rese_anombre" Type="nvarchar" MaxLength="70" />
+          <Property Name="rese_nrocontacto" Type="nvarchar" MaxLength="30" />
+          <Property Name="rese_fecha" Type="date" />
+          <Property Name="rese_hora" Type="time" Precision="7" />
+          <Property Name="rese_nroasistentes" Type="int" />
+          <Property Name="rese_direcenvio" Type="nvarchar" MaxLength="100" />
+          <Property Name="rese_direcrefe" Type="nvarchar" MaxLength="100" />
+          <Property Name="moat_id" Type="int" />
+          <Property Name="pedi_id" Type="bigint" />
+          <Property Name="esta_id" Type="int" />
+          <Property Name="rese_mensaje" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="t_restaurante">
+          <Key>
+            <PropertyRef Name="rest_ruc" />
+          </Key>
+          <Property Name="rest_ruc" Type="nvarchar" MaxLength="11" Nullable="false" />
+          <Property Name="usua_id" Type="bigint" Nullable="false" />
+          <Property Name="rest_rz" Type="nvarchar" MaxLength="100" />
+          <Property Name="rest_nomcomer" Type="nvarchar" MaxLength="100" />
+          <Property Name="esti_id" Type="int" />
+          <Property Name="rest_descrip" Type="nvarchar" MaxLength="300" />
+          <Property Name="rest_delivery" Type="bit" />
+          <Property Name="rest_reservalocal" Type="bit" />
+          <Property Name="rest_estado" Type="bit" />
+        </EntityType>
+        <EntityType Name="t_sesion">
+          <Key>
+            <PropertyRef Name="sesi_id" />
+          </Key>
+          <Property Name="sesi_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="sesi_fechhora" Type="datetime" />
+          <Property Name="usua_id" Type="bigint" />
+          <Property Name="sesi_iniciada" Type="bit" />
+          <Property Name="sesi_estado" Type="bit" />
+        </EntityType>
+        <EntityType Name="t_telefono">
+          <Key>
+            <PropertyRef Name="usua_id" />
+            <PropertyRef Name="tite_id" />
+            <PropertyRef Name="tele_nume" />
+          </Key>
+          <Property Name="usua_id" Type="bigint" Nullable="false" />
+          <Property Name="tite_id" Type="int" Nullable="false" />
+          <Property Name="tele_nume" Type="nvarchar" MaxLength="15" Nullable="false" />
+        </EntityType>
+        <EntityType Name="t_tipocomida">
+          <Key>
+            <PropertyRef Name="tico_id" />
+          </Key>
+          <Property Name="tico_id" Type="int" Nullable="false" />
+          <Property Name="tico_descrip" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="t_tipocta">
+          <Key>
+            <PropertyRef Name="ticta_id" />
+          </Key>
+          <Property Name="ticta_id" Type="int" Nullable="false" />
+          <Property Name="ticta_descrip" Type="nvarchar" MaxLength="45" />
+        </EntityType>
+        <EntityType Name="t_tipotelefono">
+          <Key>
+            <PropertyRef Name="tite_id" />
+          </Key>
+          <Property Name="tite_id" Type="int" Nullable="false" />
+          <Property Name="tite_descrip" Type="nvarchar" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="t_usuario">
+          <Key>
+            <PropertyRef Name="usua_id" />
+          </Key>
+          <Property Name="usua_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="usua_email" Type="nvarchar" MaxLength="70" Nullable="false" />
+          <Property Name="usua_pass" Type="nvarchar" MaxLength="20" />
+          <Property Name="usua_nomb" Type="nvarchar" MaxLength="70" />
+          <Property Name="usua_dni" Type="nvarchar" MaxLength="8" />
+          <Property Name="usua_direc" Type="nvarchar" MaxLength="100" />
+          <Property Name="dist_id" Type="int" />
+          <Property Name="usua_refedirec" Type="nvarchar" MaxLength="100" />
+          <Property Name="usua_fecnac" Type="datetime" />
+          <Property Name="usua_rutaimagen" Type="nvarchar" MaxLength="150" />
+          <Property Name="usua_esta" Type="bit" />
+        </EntityType>
+        <EntityType Name="t_usuariocuenta">
+          <Key>
+            <PropertyRef Name="uscta_codigo" />
+          </Key>
+          <Property Name="usua_id" Type="bigint" Nullable="false" />
+          <Property Name="ticta_id" Type="int" Nullable="false" />
+          <Property Name="uscta_numero" Type="nvarchar" MaxLength="20" />
+          <Property Name="uscta_titular" Type="nvarchar" MaxLength="70" />
+          <Property Name="uscta_codigo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="BDRestaurantesModelStoreContainer">
+          <EntitySet Name="t_distrito" EntityType="Self.t_distrito" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_especialidadtipo" EntityType="Self.t_especialidadtipo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_estado" EntityType="Self.t_estado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_menu" EntityType="Self.t_menu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_menudetalle" EntityType="Self.t_menudetalle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_modoatencion" EntityType="Self.t_modoatencion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_pago" EntityType="Self.t_pago" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_pedido" EntityType="Self.t_pedido" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_producto" EntityType="Self.t_producto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_reserva" EntityType="Self.t_reserva" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_restaurante" EntityType="Self.t_restaurante" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_sesion" EntityType="Self.t_sesion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_telefono" EntityType="Self.t_telefono" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_tipocomida" EntityType="Self.t_tipocomida" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_tipocta" EntityType="Self.t_tipocta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_tipotelefono" EntityType="Self.t_tipotelefono" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_usuario" EntityType="Self.t_usuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_usuariocuenta" EntityType="Self.t_usuariocuenta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_pedidodetalle" EntityType="Self.t_pedidodetalle" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [t_pedidodetalle].[pedi_id] AS [pedi_id], 
+    [t_pedidodetalle].[mede_id] AS [mede_id], 
+    [t_pedidodetalle].[pedi_cant] AS [pedi_cant], 
+    [t_pedidodetalle].[pedi_importe] AS [pedi_importe]
+    FROM [dbo].[t_pedidodetalle] AS [t_pedidodetalle]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BDRestaurantesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="t_distrito">
+          <Key>
+            <PropertyRef Name="dist_id" />
+          </Key>
+          <Property Name="dist_id" Type="Int32" Nullable="false" />
+          <Property Name="dist_nombre" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="t_especialidadtipo">
+          <Key>
+            <PropertyRef Name="esti_id" />
+          </Key>
+          <Property Name="esti_id" Type="Int32" Nullable="false" />
+          <Property Name="esti_descrip" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="t_estado">
+          <Key>
+            <PropertyRef Name="esta_id" />
+          </Key>
+          <Property Name="esta_id" Type="Int32" Nullable="false" />
+          <Property Name="esta_tabla" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="esta_nombre" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="esta_descrip" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="t_menu">
+          <Key>
+            <PropertyRef Name="menu_id" />
+          </Key>
+          <Property Name="menu_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="menu_nombre" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="menu_estado" Type="Boolean" />
+          <Property Name="menu_publicado" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="t_menudetalle">
+          <Key>
+            <PropertyRef Name="mede_id" />
+          </Key>
+          <Property Name="mede_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="menu_id" Type="Int64" Nullable="false" />
+          <Property Name="prod_id" Type="Int64" Nullable="false" />
+          <Property Name="mede_precio" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="mede_disponible" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="t_modoatencion">
+          <Key>
+            <PropertyRef Name="moat_id" />
+          </Key>
+          <Property Name="moat_id" Type="Int32" Nullable="false" />
+          <Property Name="moat_descrip" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="t_pago">
+          <Key>
+            <PropertyRef Name="pago_id" />
+          </Key>
+          <Property Name="pago_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="pago_fechhora" Type="DateTime" Precision="3" />
+          <Property Name="pago_nrotarjeta" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="pago_codseguridad" Type="Int32" />
+          <Property Name="pago_monto" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="pedi_id" Type="Int64" />
+          <Property Name="usu_id" Type="Int64" />
+          <Property Name="ticta_id" Type="Int32" />
+          <Property Name="uscta_numero" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="uscta_titular" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="t_pedido">
+          <Key>
+            <PropertyRef Name="pedi_id" />
+          </Key>
+          <Property Name="pedi_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="pedi_fechhora" Type="DateTime" Precision="3" />
+          <Property Name="usua_id" Type="Int64" />
+          <Property Name="rest_ruc" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="moat_id" Type="Int32" />
+          <Property Name="pedi_mensaje" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="pedi_estado" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+          <Property Name="esta_id" Type="Int32" />
+          <Property Name="pedi_subtotal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="pedi_precioenvio" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="pedi_descuento" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="pedi_recargo" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="pedi_total" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="t_producto">
+          <Key>
+            <PropertyRef Name="prod_id" />
+          </Key>
+          <Property Name="prod_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="prod_nombre" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
+          <Property Name="prod_descrip" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="prod_precio" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="tico_id" Type="Int32" />
+          <Property Name="rest_ruc" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="t_reserva">
+          <Key>
+            <PropertyRef Name="rese_id" />
+          </Key>
+          <Property Name="rese_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="rese_fechhorareg" Type="DateTime" Precision="3" />
+          <Property Name="rest_ruc" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="usua_id" Type="Int64" />
+          <Property Name="rese_anombre" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
+          <Property Name="rese_nrocontacto" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="rese_fecha" Type="DateTime" Precision="0" />
+          <Property Name="rese_hora" Type="Time" Precision="7" />
+          <Property Name="rese_nroasistentes" Type="Int32" />
+          <Property Name="rese_direcenvio" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="rese_direcrefe" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="moat_id" Type="Int32" />
+          <Property Name="pedi_id" Type="Int64" />
+          <Property Name="esta_id" Type="Int32" />
+          <Property Name="rese_mensaje" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="t_restaurante">
+          <Key>
+            <PropertyRef Name="rest_ruc" />
+          </Key>
+          <Property Name="rest_ruc" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="usua_id" Type="Int64" Nullable="false" />
+          <Property Name="rest_rz" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="rest_nomcomer" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="esti_id" Type="Int32" />
+          <Property Name="rest_descrip" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="rest_delivery" Type="Boolean" />
+          <Property Name="rest_reservalocal" Type="Boolean" />
+          <Property Name="rest_estado" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="t_sesion">
+          <Key>
+            <PropertyRef Name="sesi_id" />
+          </Key>
+          <Property Name="sesi_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="sesi_fechhora" Type="DateTime" Precision="3" />
+          <Property Name="usua_id" Type="Int64" />
+          <Property Name="sesi_iniciada" Type="Boolean" />
+          <Property Name="sesi_estado" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="t_telefono">
+          <Key>
+            <PropertyRef Name="usua_id" />
+            <PropertyRef Name="tite_id" />
+            <PropertyRef Name="tele_nume" />
+          </Key>
+          <Property Name="usua_id" Type="Int64" Nullable="false" />
+          <Property Name="tite_id" Type="Int32" Nullable="false" />
+          <Property Name="tele_nume" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="t_tipocomida">
+          <Key>
+            <PropertyRef Name="tico_id" />
+          </Key>
+          <Property Name="tico_id" Type="Int32" Nullable="false" />
+          <Property Name="tico_descrip" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="t_tipocta">
+          <Key>
+            <PropertyRef Name="ticta_id" />
+          </Key>
+          <Property Name="ticta_id" Type="Int32" Nullable="false" />
+          <Property Name="ticta_descrip" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="t_tipotelefono">
+          <Key>
+            <PropertyRef Name="tite_id" />
+          </Key>
+          <Property Name="tite_id" Type="Int32" Nullable="false" />
+          <Property Name="tite_descrip" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="t_usuario">
+          <Key>
+            <PropertyRef Name="usua_id" />
+          </Key>
+          <Property Name="usua_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="usua_email" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="usua_pass" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="usua_nomb" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
+          <Property Name="usua_dni" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="usua_direc" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="dist_id" Type="Int32" />
+          <Property Name="usua_refedirec" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="usua_fecnac" Type="DateTime" Precision="3" />
+          <Property Name="usua_rutaimagen" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="usua_esta" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="t_pedidodetalle">
+          <Key>
+            <PropertyRef Name="pedi_id" />
+            <PropertyRef Name="mede_id" />
+          </Key>
+          <Property Name="pedi_id" Type="Int64" Nullable="false" />
+          <Property Name="mede_id" Type="Int64" Nullable="false" />
+          <Property Name="pedi_cant" Type="Int32" />
+          <Property Name="pedi_importe" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="t_usuariocuenta">
+          <Key>
+            <PropertyRef Name="uscta_codigo" />
+          </Key>
+          <Property Name="usua_id" Type="Int64" Nullable="false" />
+          <Property Name="ticta_id" Type="Int32" Nullable="false" />
+          <Property Name="uscta_numero" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="uscta_titular" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
+          <Property Name="uscta_codigo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityContainer Name="BDRestaurantesEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="t_distrito" EntityType="Self.t_distrito" />
+          <EntitySet Name="t_especialidadtipo" EntityType="Self.t_especialidadtipo" />
+          <EntitySet Name="t_estado" EntityType="Self.t_estado" />
+          <EntitySet Name="t_menu" EntityType="Self.t_menu" />
+          <EntitySet Name="t_menudetalle" EntityType="Self.t_menudetalle" />
+          <EntitySet Name="t_modoatencion" EntityType="Self.t_modoatencion" />
+          <EntitySet Name="t_pago" EntityType="Self.t_pago" />
+          <EntitySet Name="t_pedido" EntityType="Self.t_pedido" />
+          <EntitySet Name="t_producto" EntityType="Self.t_producto" />
+          <EntitySet Name="t_reserva" EntityType="Self.t_reserva" />
+          <EntitySet Name="t_restaurante" EntityType="Self.t_restaurante" />
+          <EntitySet Name="t_sesion" EntityType="Self.t_sesion" />
+          <EntitySet Name="t_telefono" EntityType="Self.t_telefono" />
+          <EntitySet Name="t_tipocomida" EntityType="Self.t_tipocomida" />
+          <EntitySet Name="t_tipocta" EntityType="Self.t_tipocta" />
+          <EntitySet Name="t_tipotelefono" EntityType="Self.t_tipotelefono" />
+          <EntitySet Name="t_usuario" EntityType="Self.t_usuario" />
+          <EntitySet Name="t_pedidodetalle" EntityType="Self.t_pedidodetalle" />
+          <EntitySet Name="t_usuariocuenta" EntityType="Self.t_usuariocuenta" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BDRestaurantesModelStoreContainer" CdmEntityContainer="BDRestaurantesEntities">
+          <EntitySetMapping Name="t_distrito">
+            <EntityTypeMapping TypeName="BDRestaurantesModel.t_distrito">
+              <MappingFragment StoreEntitySet="t_distrito">
+                <ScalarProperty Name="dist_id" ColumnName="dist_id" />
+                <ScalarProperty Name="dist_nombre" ColumnName="dist_nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_especialidadtipo">
+            <EntityTypeMapping TypeName="BDRestaurantesModel.t_especialidadtipo">
+              <MappingFragment StoreEntitySet="t_especialidadtipo">
+                <ScalarProperty Name="esti_id" ColumnName="esti_id" />
+                <ScalarProperty Name="esti_descrip" ColumnName="esti_descrip" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_estado">
+            <EntityTypeMapping TypeName="BDRestaurantesModel.t_estado">
+              <MappingFragment StoreEntitySet="t_estado">
+                <ScalarProperty Name="esta_id" ColumnName="esta_id" />
+                <ScalarProperty Name="esta_tabla" ColumnName="esta_tabla" />
+                <ScalarProperty Name="esta_nombre" ColumnName="esta_nombre" />
+                <ScalarProperty Name="esta_descrip" ColumnName="esta_descrip" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_menu">
+            <EntityTypeMapping TypeName="BDRestaurantesModel.t_menu">
+              <MappingFragment StoreEntitySet="t_menu">
+                <ScalarProperty Name="menu_id" ColumnName="menu_id" />
+                <ScalarProperty Name="menu_nombre" ColumnName="menu_nombre" />
+                <ScalarProperty Name="menu_estado" ColumnName="menu_estado" />
+                <ScalarProperty Name="menu_publicado" ColumnName="menu_publicado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_menudetalle">
+            <EntityTypeMapping TypeName="BDRestaurantesModel.t_menudetalle">
+              <MappingFragment StoreEntitySet="t_menudetalle">
+                <ScalarProperty Name="mede_id" ColumnName="mede_id" />
+                <ScalarProperty Name="menu_id" ColumnName="menu_id" />
+                <ScalarProperty Name="prod_id" ColumnName="prod_id" />
+                <ScalarProperty Name="mede_precio" ColumnName="mede_precio" />
+                <ScalarProperty Name="mede_disponible" ColumnName="mede_disponible" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_modoatencion">
+            <EntityTypeMapping TypeName="BDRestaurantesModel.t_modoatencion">
+              <MappingFragment StoreEntitySet="t_modoatencion">
+                <ScalarProperty Name="moat_id" ColumnName="moat_id" />
+                <ScalarProperty Name="moat_descrip" ColumnName="moat_descrip" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_pago">
+            <EntityTypeMapping TypeName="BDRestaurantesModel.t_pago">
+              <MappingFragment StoreEntitySet="t_pago">
+                <ScalarProperty Name="pago_id" ColumnName="pago_id" />
+                <ScalarProperty Name="pago_fechhora" ColumnName="pago_fechhora" />
+                <ScalarProperty Name="pago_nrotarjeta" ColumnName="pago_nrotarjeta" />
+                <ScalarProperty Name="pago_codseguridad" ColumnName="pago_codseguridad" />
+                <ScalarProperty Name="pago_monto" ColumnName="pago_monto" />
+                <ScalarProperty Name="pedi_id" ColumnName="pedi_id" />
+                <ScalarProperty Name="usu_id" ColumnName="usu_id" />
+                <ScalarProperty Name="ticta_id" ColumnName="ticta_id" />
+                <ScalarProperty Name="uscta_numero" ColumnName="uscta_numero" />
+                <ScalarProperty Name="uscta_titular" ColumnName="uscta_titular" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_pedido">
+            <EntityTypeMapping TypeName="BDRestaurantesModel.t_pedido">
+              <MappingFragment StoreEntitySet="t_pedido">
+                <ScalarProperty Name="pedi_id" ColumnName="pedi_id" />
+                <ScalarProperty Name="pedi_fechhora" ColumnName="pedi_fechhora" />
+                <ScalarProperty Name="usua_id" ColumnName="usua_id" />
+                <ScalarProperty Name="rest_ruc" ColumnName="rest_ruc" />
+                <ScalarProperty Name="moat_id" ColumnName="moat_id" />
+                <ScalarProperty Name="pedi_mensaje" ColumnName="pedi_mensaje" />
+                <ScalarProperty Name="pedi_estado" ColumnName="pedi_estado" />
+                <ScalarProperty Name="esta_id" ColumnName="esta_id" />
+                <ScalarProperty Name="pedi_subtotal" ColumnName="pedi_subtotal" />
+                <ScalarProperty Name="pedi_precioenvio" ColumnName="pedi_precioenvio" />
+                <ScalarProperty Name="pedi_descuento" ColumnName="pedi_descuento" />
+                <ScalarProperty Name="pedi_recargo" ColumnName="pedi_recargo" />
+                <ScalarProperty Name="pedi_total" ColumnName="pedi_total" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_producto">
+            <EntityTypeMapping TypeName="BDRestaurantesModel.t_producto">
+              <MappingFragment StoreEntitySet="t_producto">
+                <ScalarProperty Name="prod_id" ColumnName="prod_id" />
+                <ScalarProperty Name="prod_nombre" ColumnName="prod_nombre" />
+                <ScalarProperty Name="prod_descrip" ColumnName="prod_descrip" />
+                <ScalarProperty Name="prod_precio" ColumnName="prod_precio" />
+                <ScalarProperty Name="tico_id" ColumnName="tico_id" />
+                <ScalarProperty Name="rest_ruc" ColumnName="rest_ruc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_reserva">
+            <EntityTypeMapping TypeName="BDRestaurantesModel.t_reserva">
+              <MappingFragment StoreEntitySet="t_reserva">
+                <ScalarProperty Name="rese_id" ColumnName="rese_id" />
+                <ScalarProperty Name="rese_fechhorareg" ColumnName="rese_fechhorareg" />
+                <ScalarProperty Name="rest_ruc" ColumnName="rest_ruc" />
+                <ScalarProperty Name="usua_id" ColumnName="usua_id" />
+                <ScalarProperty Name="rese_anombre" ColumnName="rese_anombre" />
+                <ScalarProperty Name="rese_nrocontacto" ColumnName="rese_nrocontacto" />
+                <ScalarProperty Name="rese_fecha" ColumnName="rese_fecha" />
+                <ScalarProperty Name="rese_hora" ColumnName="rese_hora" />
+                <ScalarProperty Name="rese_nroasistentes" ColumnName="rese_nroasistentes" />
+                <ScalarProperty Name="rese_direcenvio" ColumnName="rese_direcenvio" />
+                <ScalarProperty Name="rese_direcrefe" ColumnName="rese_direcrefe" />
+                <ScalarProperty Name="moat_id" ColumnName="moat_id" />
+                <ScalarProperty Name="pedi_id" ColumnName="pedi_id" />
+                <ScalarProperty Name="esta_id" ColumnName="esta_id" />
+                <ScalarProperty Name="rese_mensaje" ColumnName="rese_mensaje" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_restaurante">
+            <EntityTypeMapping TypeName="BDRestaurantesModel.t_restaurante">
+              <MappingFragment StoreEntitySet="t_restaurante">
+                <ScalarProperty Name="rest_ruc" ColumnName="rest_ruc" />
+                <ScalarProperty Name="usua_id" ColumnName="usua_id" />
+                <ScalarProperty Name="rest_rz" ColumnName="rest_rz" />
+                <ScalarProperty Name="rest_nomcomer" ColumnName="rest_nomcomer" />
+                <ScalarProperty Name="esti_id" ColumnName="esti_id" />
+                <ScalarProperty Name="rest_descrip" ColumnName="rest_descrip" />
+                <ScalarProperty Name="rest_delivery" ColumnName="rest_delivery" />
+                <ScalarProperty Name="rest_reservalocal" ColumnName="rest_reservalocal" />
+                <ScalarProperty Name="rest_estado" ColumnName="rest_estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_sesion">
+            <EntityTypeMapping TypeName="BDRestaurantesModel.t_sesion">
+              <MappingFragment StoreEntitySet="t_sesion">
+                <ScalarProperty Name="sesi_id" ColumnName="sesi_id" />
+                <ScalarProperty Name="sesi_fechhora" ColumnName="sesi_fechhora" />
+                <ScalarProperty Name="usua_id" ColumnName="usua_id" />
+                <ScalarProperty Name="sesi_iniciada" ColumnName="sesi_iniciada" />
+                <ScalarProperty Name="sesi_estado" ColumnName="sesi_estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_telefono">
+            <EntityTypeMapping TypeName="BDRestaurantesModel.t_telefono">
+              <MappingFragment StoreEntitySet="t_telefono">
+                <ScalarProperty Name="usua_id" ColumnName="usua_id" />
+                <ScalarProperty Name="tite_id" ColumnName="tite_id" />
+                <ScalarProperty Name="tele_nume" ColumnName="tele_nume" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_tipocomida">
+            <EntityTypeMapping TypeName="BDRestaurantesModel.t_tipocomida">
+              <MappingFragment StoreEntitySet="t_tipocomida">
+                <ScalarProperty Name="tico_id" ColumnName="tico_id" />
+                <ScalarProperty Name="tico_descrip" ColumnName="tico_descrip" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_tipocta">
+            <EntityTypeMapping TypeName="BDRestaurantesModel.t_tipocta">
+              <MappingFragment StoreEntitySet="t_tipocta">
+                <ScalarProperty Name="ticta_id" ColumnName="ticta_id" />
+                <ScalarProperty Name="ticta_descrip" ColumnName="ticta_descrip" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_tipotelefono">
+            <EntityTypeMapping TypeName="BDRestaurantesModel.t_tipotelefono">
+              <MappingFragment StoreEntitySet="t_tipotelefono">
+                <ScalarProperty Name="tite_id" ColumnName="tite_id" />
+                <ScalarProperty Name="tite_descrip" ColumnName="tite_descrip" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_usuario">
+            <EntityTypeMapping TypeName="BDRestaurantesModel.t_usuario">
+              <MappingFragment StoreEntitySet="t_usuario">
+                <ScalarProperty Name="usua_id" ColumnName="usua_id" />
+                <ScalarProperty Name="usua_email" ColumnName="usua_email" />
+                <ScalarProperty Name="usua_pass" ColumnName="usua_pass" />
+                <ScalarProperty Name="usua_nomb" ColumnName="usua_nomb" />
+                <ScalarProperty Name="usua_dni" ColumnName="usua_dni" />
+                <ScalarProperty Name="usua_direc" ColumnName="usua_direc" />
+                <ScalarProperty Name="dist_id" ColumnName="dist_id" />
+                <ScalarProperty Name="usua_refedirec" ColumnName="usua_refedirec" />
+                <ScalarProperty Name="usua_fecnac" ColumnName="usua_fecnac" />
+                <ScalarProperty Name="usua_rutaimagen" ColumnName="usua_rutaimagen" />
+                <ScalarProperty Name="usua_esta" ColumnName="usua_esta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_pedidodetalle">
+            <EntityTypeMapping TypeName="BDRestaurantesModel.t_pedidodetalle">
+              <MappingFragment StoreEntitySet="t_pedidodetalle">
+                <ScalarProperty Name="pedi_id" ColumnName="pedi_id" />
+                <ScalarProperty Name="mede_id" ColumnName="mede_id" />
+                <ScalarProperty Name="pedi_cant" ColumnName="pedi_cant" />
+                <ScalarProperty Name="pedi_importe" ColumnName="pedi_importe" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_usuariocuenta">
+            <EntityTypeMapping TypeName="BDRestaurantesModel.t_usuariocuenta">
+              <MappingFragment StoreEntitySet="t_usuariocuenta">
+                <ScalarProperty Name="uscta_codigo" ColumnName="uscta_codigo" />
+                <ScalarProperty Name="usua_id" ColumnName="usua_id" />
+                <ScalarProperty Name="ticta_id" ColumnName="ticta_id" />
+                <ScalarProperty Name="uscta_numero" ColumnName="uscta_numero" />
+                <ScalarProperty Name="uscta_titular" ColumnName="uscta_titular" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

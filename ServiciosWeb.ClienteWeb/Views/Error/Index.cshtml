@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Error.cshtml";
+}
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <hgroup>
+        <h1>@ViewBag.Title.</h1>
+        <h2>@ViewBag.Description</h2>
+    </hgroup>
+
+
+
+    <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Index", "Servicio", new { })'">
+        Ir al Inicio
+    </button>
+
+
+</body>
+</html>

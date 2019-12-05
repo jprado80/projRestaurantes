@@ -1,0 +1,25 @@
+﻿@model ServiciosWeb.Dominio.Modelo.ActivarCuentaModel
+
+@{
+    ViewBag.Title = "ActivarCuenta";
+    Layout = "~/Views/Shared/_Layout_free.cshtml";
+}
+
+<h2>Activar Cuenta</h2>
+<div>
+
+    <hr />
+    <dl class="dl-horizontal">
+
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+    </dl>
+
+    <input type="button" value="Ingrear al Sistema" class="btn btn-default"
+           onclick="location.href='@Url.Action("Index", "Home", new { })'" />
+
+
+</div>

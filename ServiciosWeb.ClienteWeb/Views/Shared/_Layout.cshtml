@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title </title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Home", "Index", "Restaurante", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Gestion Lista Precio", "Index", "Restaurante")</li>
+                    <li>@Html.ActionLink("Gestion Menu", "Index", "Restaurante")</li>
+                    <li>@Html.ActionLink("Gestion Reserva", "Index", "Restaurante")</li>
+                    <li>@Html.ActionLink("Gestion Pedido", "Index", "Restaurante")</li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            +  Opciones <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+
+                                <a href="@Url.Action("MisDatos", "Restaurante", new { })">Mis Datos</a>
+
+                            </li>
+                            <li><a href="@Url.Action("CambiarContrasena", "Usuario", new { })">Cambiar Contraseña</a></li>
+                            <li class="divider"></li>
+                            <li>@Html.ActionLink("Cerrar Sesión", "SignOut", "Home", new { }, new { })</li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year </p>
+        </footer>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

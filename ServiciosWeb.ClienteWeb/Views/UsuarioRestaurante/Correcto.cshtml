@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Correcto";
+    Layout = "~/Views/Shared/_Layout_free.cshtml";
+}
+
+@model ServiciosWeb.Dominio.UsuarioRestaurante
+
+
+
+<h2>Cuenta Creada</h2>
+<div>
+
+
+    <hr />
+    <dl class="dl-horizontal">
+
+
+        <dd>
+            @Model.Usuario.usua_nomb, se registro con exito muchas gracias!!
+        </dd>
+        <dd>
+            Se envio un enlace a su correo para activar la cuenta
+        </dd>
+    </dl>
+
+    <input type="button" value="Ingresar al Sistema" class="btn btn-default"
+           onclick="location.href='@Url.Action("Index", "Home", new { })'" />
+
+
+</div>
+

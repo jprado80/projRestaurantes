@@ -1,0 +1,93 @@
+﻿@model ServiciosWeb.Dominio.Modelo.CambiarContrasenModel
+
+@{
+    ViewBag.Title = "Cambiar Contrasena";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>CAMBIAR CONTRASEÑA</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ContrasenaActual, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.PasswordFor(model => model.ContrasenaActual, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ContrasenaActual, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ContrasenaNueva, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.PasswordFor(model => model.ContrasenaNueva, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ContrasenaNueva, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ContrasenaRepetir, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.PasswordFor(model => model.ContrasenaRepetir, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ContrasenaRepetir, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="alert alert-danger" id="divAlerta" role="alert">
+            @Html.ValidationMessage("MensajeGeneral", htmlAttributes: new { @id = "spanError" })
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Cambiar Contraseña" class="btn btn-primary" />
+            </div>
+
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="Retornar" class="btn btn-default"
+                       onclick="location.href='@Url.Action("Index", "Home", new { })'" />
+            </div>
+        </div>
+
+    </div>
+}
+
+
+@section scripts{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+
+            let errorMensaje = $("#spanError").html();
+
+            if (errorMensaje == "") {
+
+                $("#divAlerta").hide();
+
+            } else {
+                $("#divAlerta").show();
+
+            }
+
+
+          
+
+        });
+
+
+
+      
+
+    </script>
+
+
+}
+

@@ -1,0 +1,57 @@
+﻿@model Usuario
+@{
+    ViewBag.Title = "Nuevo";
+}
+
+<h2>Nuevo Usuario</h2>
+<hr/>
+
+<form method="post" action="@Url.Action("Nuevo","Usuario")">
+    @*<div class="form-group">
+            <label>Id</label>
+            @Html.TextBoxFor(x => x.usua_id, new { @class = "form-control" })
+        </div -->*@
+
+    <div class="form-group">
+        <label>Usuario</label>
+        @Html.TextBoxFor(x => x.usua_email, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <label>Password</label>
+        @Html.TextBoxFor(x => x.usua_pass, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <label>Nombre</label>
+        @Html.TextBoxFor(x => x.usua_nomb, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <label>Documento</label>
+        @Html.TextBoxFor(x => x.usua_dni, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <label>Direccion</label>
+        @Html.TextBoxFor(x => x.usua_direc, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <label>Distrito</label>
+        @Html.TextBoxFor(x => x.dist_id, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <label>Referencia</label>
+        @Html.TextBoxFor(x => x.usua_refedirec, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <label>Fecha nacimiento</label>
+        @Html.TextBoxFor(x => x.usua_fecnac, new { @class = "form-control" })
+        @*Html.DropDownListFor()*@
+    </div>
+    <div class="form-group">
+        <label>Ruta Imagen</label>
+        @Html.TextBoxFor(x => x.usua_rutaimagen, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <input type="submit" class="btn btn-success" value="Enviar" />
+        <a href="@Url.Action("Index","Usuario")">Regresar</a>
+    </div>
+    <hr />
+</form>

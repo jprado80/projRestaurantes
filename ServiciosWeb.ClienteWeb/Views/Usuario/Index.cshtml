@@ -1,0 +1,40 @@
+﻿@model List<Usuario>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>
+    <a href="@Url.Action("Nuevo","Usuario")" class="btn btn-primary right">Nuevo</a>
+    Listado de Usuarios
+</h2>
+<hr/>
+
+    <table class="table-bordered">
+        <thead>
+            <tr>
+                <td>Id</td>
+                <td>Usuario</td>
+                <td>Password</td>
+                <td>Nombre</td>
+                <td>Acciones</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var usuario in Model)
+            {
+            <tr>
+                <td>@usuario.usua_id</td>
+                <td>@usuario.usua_email</td>
+                <td>@usuario.usua_pass</td>
+                <td>@usuario.usua_nomb</td>
+                <td>
+                    <a href="@Url.Action("Actualizar","Usuario", new { id = usuario.usua_id})" class="btn btn-success right">Actualizar</a>
+                    <a href="@Url.Action("Eliminar","Usuario", new { id = usuario.usua_id})" class="btn btn-danger right">Eliminar</a>
+                    <a href="@Url.Action("Detalle","Usuario", new { id = usuario.usua_id})" class="btn btn-default right">Ver Detalle</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+
+
+    </table>

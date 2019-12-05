@@ -1,0 +1,53 @@
+﻿@model Usuario
+@{
+    ViewBag.Title = "Detalle";
+}
+
+<h2>Detalle Usuario</h2>
+<hr/>
+
+<form method="post" action="@Url.Action("Nuevo","Usuario")">
+    <div class="form-group">
+        <label>Id: </label>
+        @Model.usua_id
+    </div>
+
+    <div class="form-group">
+        <label>Usuario: </label>
+        @Model.usua_email
+    </div>
+    <div class="form-group">
+        <label>Password: </label>
+        @Model.usua_pass
+    </div>
+    <div class="form-group">
+        <label>Nombre: </label>
+        @Model.usua_nomb
+    </div>
+    <div class="form-group">
+        <label>Documento: </label>
+        @Model.usua_dni
+    </div>
+    <div class="form-group">
+        <label>Direccion: </label>
+        @Model.usua_direc
+    </div>
+    <div class="form-group">
+        <label>Distrito: </label>
+        @Model.dist_id
+    </div>
+    <div class="form-group">
+        <label>Referencia: </label>
+        @Model.usua_refedirec
+    </div>
+    <div class="form-group">
+        <label>Fecha nacimiento: </label>
+        @Model.usua_fecnac
+    </div>
+    <div class="form-group">
+        <label>Ruta Imagen: </label>
+        @Model.usua_rutaimagen
+    </div>
+    <div class="form-group">
+        <a href="@Url.Action("Index","Usuario")">Regresar</a>
+    </div>
