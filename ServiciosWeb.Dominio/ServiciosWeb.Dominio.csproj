@@ -51,8 +51,10 @@
     <Compile Include="Request\ValidarClaveUsuarioRequest.cs" />
     <Compile Include="Response\CambiarClaveUsuarioResponse.cs" />
     <Compile Include="Response\ObtenerComunResponse.cs" />
+    <Compile Include="Response\ObtenerTipoComidaResponse.cs" />
     <Compile Include="Response\ObtenerTelefonoUsuarioResponse.cs" />
     <Compile Include="Response\ValidarClaveUsuarioResponse.cs" />
+    <Compile Include="TipoComida.cs" />
     <Compile Include="TipoCuenta.cs" />
     <Compile Include="EspecialidadTipo.cs" />
     <Compile Include="Modelo\ActivarCuentaModel.cs" />
