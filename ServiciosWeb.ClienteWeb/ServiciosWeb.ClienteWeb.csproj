@@ -209,6 +209,7 @@
     <Content Include="Views\Usuario\ActivarCuenta.cshtml" />
     <Content Include="Views\Usuario\CambiarContrasena.cshtml" />
     <Content Include="Views\Usuario\Correcto.cshtml" />
+    <Content Include="Views\Restaurante\MantenimientoListaPrecio.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

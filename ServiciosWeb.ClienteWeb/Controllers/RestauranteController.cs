@@ -2,6 +2,7 @@
 using ServiciosWeb.ClienteWeb.Utilitario;
 using ServiciosWeb.Dominio;
 using ServiciosWeb.Dominio.Control;
+using ServiciosWeb.Dominio.Modelo;
 using ServiciosWeb.Dominio.Request;
 using ServiciosWeb.Dominio.Response;
 using ServiciosWeb.DominioResponse;
@@ -24,6 +25,15 @@ namespace ServiciosWeb.ClienteWeb.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+
+        public ActionResult MantenimientoListaPrecio()
+        {
+            MantenimientoListaPrecioModel model = new MantenimientoListaPrecioModel();
+
+
+            return View(model);
         }
 
         // GET: Restaurante/Details/5
@@ -405,5 +415,10 @@ namespace ServiciosWeb.ClienteWeb.Controllers
                 return View();
             }
         }
+
+
+
+
+
     }
 }

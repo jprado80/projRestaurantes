@@ -71,6 +71,39 @@ namespace ServiciosWeb.WebApi.Areas.Comun.Controllers
 
         }
 
+
+        [Route("api/comun/tipocomida/")]
+        public IHttpActionResult ObtenerTipoComida()
+        {
+            ObtenerTipoComidaResponse objresponse = new ObtenerTipoComidaResponse();
+            objresponse.TipoComida = new List<Dominio.TipoComida>();
+            objresponse.status = new ProcesoResponse();
+
+            try
+            {
+                var tTipoComida = BD.t_tipocomida.ToList();
+
+                foreach (var item in tTipoComida)
+                {
+                    objresponse.TipoComida.Add(new Dominio.TipoComida()
+                    { tico_id = item.tico_id,
+                        tico_descrip = item.tico_descrip });
+                }
+
+                objresponse.status.estado = 0;
+                objresponse.status.mensaje = "Exitoso";
+            }
+            catch (Exception err)
+            {
+                objresponse.status.estado = -1;
+                objresponse.status.mensaje = err.Message;
+                throw err;
+            }
+
+            return Ok(objresponse);
+
+        }
+
         // GET: api/Comun/5
         public string Get(int id)
         {

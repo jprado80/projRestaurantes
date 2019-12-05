@@ -46,6 +46,7 @@
     <Compile Include="Control\SelectListItemCustom.cs" />
     <Compile Include="Control\UsuarioRestaurante.cs" />
     <Compile Include="Modelo\CambiarContrasenModel.cs" />
+    <Compile Include="Modelo\MantenimientoListaPrecioModel.cs" />
     <Compile Include="Request\CambiarClaveUsuarioRequest.cs" />
     <Compile Include="Request\ValidarClaveUsuarioRequest.cs" />
     <Compile Include="Response\CambiarClaveUsuarioResponse.cs" />

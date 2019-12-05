@@ -1,12 +1,55 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title </title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+
+
+ 
+
+    <style type="text/css">
+        h1 {
+            color: green;
+        }
+
+        .xyz {
+            background-size: auto;
+            text-align: center;
+            padding-top: 100px;
+        }
+
+        .btn-circle.btn-sm {
+            width: 30px;
+            height: 30px;
+            padding: 6px 0px;
+            border-radius: 15px;
+            font-size: 8px;
+            text-align: center;
+        }
+
+        .btn-circle.btn-md {
+            width: 50px;
+            height: 50px;
+            padding: 7px 10px;
+            border-radius: 25px;
+            font-size: 10px;
+            text-align: center;
+        }
+
+        .btn-circle.btn-xl {
+            width: 70px;
+            height: 70px;
+            padding: 10px 16px;
+            border-radius: 35px;
+            font-size: 12px;
+            text-align: center;
+        }
+    </style>
+
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -22,7 +65,7 @@
             <div class="navbar-collapse collapse">
 
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Gestion Lista Precio", "Index", "Restaurante")</li>
+                    <li>@Html.ActionLink("Gestion Lista Precio", "MantenimientoListaPrecio", "Restaurante")</li>
                     <li>@Html.ActionLink("Gestion Menu", "Index", "Restaurante")</li>
                     <li>@Html.ActionLink("Gestion Reserva", "Index", "Restaurante")</li>
                     <li>@Html.ActionLink("Gestion Pedido", "Index", "Restaurante")</li>
