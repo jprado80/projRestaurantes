@@ -93,6 +93,8 @@ namespace ServiciosWeb.Dominio
 
         public string EspecialidaDescripcion { get; set; }
 
+        public string MensajeSucces { get; set; }
+
 
         public List<SelectListItemCustom> Distritos { get; set; }
         public List<SelectListItemCustom> EspecialidadTipo { get; set; }

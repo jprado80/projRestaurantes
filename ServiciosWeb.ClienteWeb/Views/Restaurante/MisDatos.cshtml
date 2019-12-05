@@ -214,6 +214,10 @@
                 @Html.ValidationMessage("MensajeGeneral", htmlAttributes: new { @id = "spanError" })
             </div>
 
+            <div class="alert alert-success" id="divSuccess" role="alert">
+                @Model.MensajeSucces
+            </div>
+
             <div class="form-group">
                 <center>
                     <input type="button" value="Cancelar" class="btn btn-default"
@@ -242,7 +246,7 @@
 
                 let errorMensaje = $("#spanError").html();
 
-                if (errorMensaje == "") {
+                if ($.trim(errorMensaje) == "") {
 
                     $("#divAlerta").hide();
 
@@ -250,6 +254,19 @@
                     $("#divAlerta").show();
 
                 }
+                let successMensaje = $("#divSuccess").html();
+
+                if ($.trim(successMensaje) == "") {
+
+                    $("#divSuccess").hide();
+
+                } else {
+                    $("#divSuccess").show();
+
+                }
+
+                
+
 
                 let varTelefono = $("#hidenTelefonos").val();
 

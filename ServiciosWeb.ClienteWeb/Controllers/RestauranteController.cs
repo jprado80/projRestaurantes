@@ -173,6 +173,9 @@ namespace ServiciosWeb.ClienteWeb.Controllers
             model.EspecialidadTipo = new List<SelectListItemCustom>();
             model.TipoCuenta = new List<SelectListItemCustom>();
 
+            model.MensajeSucces = string.Empty;
+
+
 
             ProxyApiComun api = new ProxyApiComun();
             ProxyApiUsuario apiUsuario = new ProxyApiUsuario();
@@ -321,6 +324,7 @@ namespace ServiciosWeb.ClienteWeb.Controllers
                     if (objRespuesta.status.estado == 0)
                     {
 
+                        model.MensajeSucces = "Actualizado";
                         return View(model);
                     }
                     else {
