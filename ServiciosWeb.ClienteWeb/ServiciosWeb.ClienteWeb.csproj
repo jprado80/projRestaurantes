@@ -52,6 +52,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Messaging" />
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Net.Http.2.0.20126.16343\lib\net40\System.Net.Http.dll</HintPath>
@@ -449,6 +450,7 @@
     <Content Include="Views\Usuario\Correcto.cshtml" />
     <Content Include="Views\Restaurante\MantenimientoListaPrecio.cshtml" />
     <Content Include="Views\Restaurante\GestionMenu.cshtml" />
+    <Content Include="ServiciosWeb.ClienteWeb.snk" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -471,6 +473,10 @@
       <Project>{0745c667-b001-4e91-84d2-ea68b167be30}</Project>
       <Name>SeguridadMVC</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ServicioCommon\ServicioCommon.csproj">
+      <Project>{b6d60741-d825-4fe6-a03f-e844ca4577db}</Project>
+      <Name>ServicioCommon</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ServiciosWeb.Dominio\ServiciosWeb.Dominio.csproj">
       <Project>{b400b9e5-fb75-4dee-b010-8b99de659558}</Project>
       <Name>ServiciosWeb.Dominio</Name>
@@ -483,6 +489,12 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>ServiciosWeb.ClienteWeb.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

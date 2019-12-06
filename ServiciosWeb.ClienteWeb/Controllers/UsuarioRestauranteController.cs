@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Messaging;
 using System.Web;
 using System.Web.Mvc;
 using CaptchaMvc.HtmlHelpers;
@@ -8,6 +9,7 @@ using Newtonsoft.Json;
 using ServiciosWeb.ClienteWeb.Utilitario;
 using ServiciosWeb.Dominio;
 using ServiciosWeb.Dominio.Control;
+using ServiciosWeb.Dominio.Correo;
 using ServiciosWeb.Dominio.Request;
 using ServiciosWeb.Dominio.Response;
 using ServiciosWeb.DominioResponse;
@@ -17,6 +19,29 @@ namespace ServiciosWeb.ClienteWeb.Controllers
 {
     public class UsuarioRestauranteController : Controller
     {
+
+        public System.Messaging.MessageQueue objMMessageQeue;
+
+
+        protected void CrearCola() {
+
+            if (MessageQueue.Exists(@".\Private$\"+ ServicioCommon.Parametros.COLA_RESTAURANTE_QUEUE))
+                objMMessageQeue = new System.Messaging.MessageQueue(@".\Private$\" + ServicioCommon.Parametros.COLA_RESTAURANTE_QUEUE);
+            else
+                objMMessageQeue = MessageQueue.Create(@".\Private$\" + ServicioCommon.Parametros.COLA_RESTAURANTE_QUEUE);
+
+
+        }
+        protected bool EnviarMensajeCola(object mensaje)
+        {
+            System.Messaging.Message mm = new System.Messaging.Message();
+            mm.Body = mensaje;
+            mm.Label = "MsgI" + Guid.NewGuid();
+            objMMessageQeue.Send(mm);
+
+            return true;
+        }
+
 
         [HttpGet]
         [AllowAnonymous]
@@ -162,21 +187,36 @@ namespace ServiciosWeb.ClienteWeb.Controllers
 
                         if (objRespuesta.status.estado == 0)
                         {
+                            // enviar a cola mensajes para envio de correo
 
                             string link = "http://localhost:59052/Usuario/ActivarCuenta?CodigoUsuario=" + objRespuesta.CodigoUsuario;
                             string DetalleMensaje = " Para activar la cuenta ingrese al siguiente enlace ";
 
-                            Mailer CorreoSolicitud = new Mailer();
-                            List<String> listCorreso = new List<string>();
-                            listCorreso.Add(model.Usuario.usua_email);
-                            CorreoSolicitud.Notificacion.CorreosPara = listCorreso;
-                            CorreoSolicitud.Notificacion.ConCopia = "";
-                            CorreoSolicitud.Notificacion.Asunto = " Activar cuenta";
-                            CorreoSolicitud.Notificacion.Cuerpo = new FormatoCorreo().BodyMensaje(model.Usuario.usua_nomb, DetalleMensaje, link);
+
+                            CorreoAltaUsuario objCorreoAltaUsuario = new CorreoAltaUsuario();
 
 
-                            CorreoSolicitud.Enviar();
+                            //Mailer CorreoSolicitud = new Mailer();
+                            //List<String> listCorreso = new List<string>();
+                            //listCorreso.Add(model.Usuario.usua_email);
+                            //CorreoSolicitud.Notificacion.CorreosPara = listCorreso;
+                            //CorreoSolicitud.Notificacion.ConCopia = "";
+                            //CorreoSolicitud.Notificacion.Asunto = " Activar cuenta";
+                            //CorreoSolicitud.Notificacion.Cuerpo = new FormatoCorreo().BodyMensaje(model.Usuario.usua_nomb, DetalleMensaje, link);
+                            //CorreoSolicitud.Enviar();
+
+                            objCorreoAltaUsuario.CodigoUsuario = model.Usuario.usua_id;
+                            objCorreoAltaUsuario.CorreoUsuario = model.Usuario.usua_email;
+                            objCorreoAltaUsuario.Asunto = " Activar cuenta";
+                            objCorreoAltaUsuario.Mensaje = new FormatoCorreo().BodyMensaje(model.Usuario.usua_nomb, DetalleMensaje, link);
+
+
+                            this.CrearCola();
+                            this.EnviarMensajeCola(objCorreoAltaUsuario);
+
+
                             return View("Correcto",model);
+
                         }
                         else 
                         {                       

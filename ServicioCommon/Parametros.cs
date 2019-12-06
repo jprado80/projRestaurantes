@@ -11,7 +11,8 @@ namespace ServicioCommon
     {
 
         public static string URLServicio = ConfigurationManager.AppSettings["URI"].ToString();
+        public static string COLA_RESTAURANTE_QUEUE = ConfigurationManager.AppSettings["Queue"].ToString();
 
-        
+
     }
 }

@@ -30,6 +30,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>ServicioDominio.Web.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -48,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Control\SelectListItemCustom.cs" />
     <Compile Include="Control\UsuarioRestaurante.cs" />
+    <Compile Include="Correo\CorreoAltaUsuario.cs" />
     <Compile Include="DataTableRequest.cs" />
     <Compile Include="DataTableResponse.cs" />
     <Compile Include="ErrorManager.cs" />
@@ -91,6 +98,8 @@
     <Compile Include="Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="ServicioDominio.Web.snk" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
