@@ -167,6 +167,8 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Areas\Restaurante\Controllers\ListaPrecioController.cs" />
+    <Compile Include="Areas\Restaurante\RestauranteAreaRegistration.cs" />
     <Compile Include="Areas\Seguridad\Controllers\AutenticarController.cs" />
     <Compile Include="Areas\Seguridad\SeguridadAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -209,6 +211,7 @@
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <Content Include="Areas\Seguridad\Views\web.config" />
     <Content Include="Areas\Comun\Views\web.config" />
+    <Content Include="Areas\Restaurante\Views\web.config" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -234,6 +237,8 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Comun\Models\" />
     <Folder Include="Areas\Comun\Views\Shared\" />
+    <Folder Include="Areas\Restaurante\Models\" />
+    <Folder Include="Areas\Restaurante\Views\Shared\" />
     <Folder Include="Areas\Seguridad\Models\" />
     <Folder Include="Areas\Seguridad\Views\Shared\" />
     <Folder Include="Models\" />

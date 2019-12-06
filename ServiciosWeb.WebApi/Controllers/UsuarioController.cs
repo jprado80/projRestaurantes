@@ -41,39 +41,25 @@ namespace ServiciosWeb.WebApi.Controllers
             {
 
                 var usuario = BD.t_usuario.FirstOrDefault(x => x.usua_id == id);
-
-
-
                 var Restaurante = BD.t_restaurante.FirstOrDefault(z => z.usua_id == id);
 
                 if (usuario != null)
                 {
                     objresponse.status.estado = 0;
                     objresponse.Usuario = new Dominio.Usuario();
-
                     objresponse.Usuario.usua_nomb = usuario.usua_nomb;
-
                     objresponse.Usuario.usua_id = usuario.usua_id;
-
                     objresponse.Usuario.usua_email = usuario.usua_email;
-
                     objresponse.Usuario.usua_dni = usuario.usua_dni;
                     objresponse.Usuario.usua_direc = usuario.usua_direc;
                     objresponse.Usuario.usua_refedirec = usuario.usua_refedirec;
 
-
-
                     var tDistrito = BD.t_distrito.FirstOrDefault(x => x.dist_id == usuario.dist_id);
                     if (tDistrito != null)
                     {
-
-
                         objresponse.Usuario.dist_id = tDistrito.dist_id;
                         objresponse.Usuario.dist_nombre = tDistrito.dist_nombre;
-
                     }
-
-
 
                     if (Restaurante != null)
                     {
@@ -86,7 +72,6 @@ namespace ServiciosWeb.WebApi.Controllers
                         objresponse.Restaurante.rest_estado = Restaurante.rest_estado;
                         objresponse.Restaurante.rest_reservalocal = Restaurante.rest_reservalocal;
                         objresponse.Restaurante.rest_rz = Restaurante.rest_rz;
-
 
                         var tEspecialidadTipo = BD.t_especialidadtipo.FirstOrDefault(x => x.esti_id == Restaurante.esti_id);
 
@@ -110,22 +95,17 @@ namespace ServiciosWeb.WebApi.Controllers
                             {
                                 objresponse.Restaurante.ticta_id = TipoCuenta.ticta_id;
                                 objresponse.Restaurante.ticta_descrip = TipoCuenta.ticta_descrip;
-
                             }
                         }
-
                     }
 
                     objresponse.status.mensaje = "Exitoso";
                 }
                 else
                 {
-
                     objresponse.status.estado = 1;
                     objresponse.status.mensaje = "No se encontro";
-
                 }
-
 
             }
             catch (Exception err)

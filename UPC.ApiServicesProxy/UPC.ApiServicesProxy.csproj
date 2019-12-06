@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ProxyApiComun.cs" />
+    <Compile Include="ProxyApiProducto.cs" />
     <Compile Include="ProxyApiUsuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

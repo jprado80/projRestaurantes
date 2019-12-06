@@ -34,7 +34,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,15 +45,25 @@
   <ItemGroup>
     <Compile Include="Control\SelectListItemCustom.cs" />
     <Compile Include="Control\UsuarioRestaurante.cs" />
+    <Compile Include="DataTableRequest.cs" />
+    <Compile Include="DataTableResponse.cs" />
+    <Compile Include="ErrorManager.cs" />
     <Compile Include="Modelo\CambiarContrasenModel.cs" />
+    <Compile Include="Modelo\GestionMenuModel.cs" />
     <Compile Include="Modelo\MantenimientoListaPrecioModel.cs" />
+    <Compile Include="OperacionType.cs" />
+    <Compile Include="RequestOperacionBE.cs" />
     <Compile Include="Request\CambiarClaveUsuarioRequest.cs" />
+    <Compile Include="Request\ListarPrecioRequest.cs" />
     <Compile Include="Request\ValidarClaveUsuarioRequest.cs" />
+    <Compile Include="ResponseOperacionBE.cs" />
     <Compile Include="Response\CambiarClaveUsuarioResponse.cs" />
+    <Compile Include="Response\ListaPrecioResponse.cs" />
     <Compile Include="Response\ObtenerComunResponse.cs" />
     <Compile Include="Response\ObtenerTipoComidaResponse.cs" />
     <Compile Include="Response\ObtenerTelefonoUsuarioResponse.cs" />
     <Compile Include="Response\ValidarClaveUsuarioResponse.cs" />
+    <Compile Include="Producto.cs" />
     <Compile Include="TipoComida.cs" />
     <Compile Include="TipoCuenta.cs" />
     <Compile Include="EspecialidadTipo.cs" />

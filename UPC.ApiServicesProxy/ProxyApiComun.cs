@@ -63,7 +63,29 @@ namespace UPC.ApiServicesProxy
         }
 
 
-        public ObtenerComunResponse ObtenerComun()
+
+        
+        public ObtenerTipoComidaResponse ObtenerTipoComida()
+        {
+            ObtenerTipoComidaResponse response = new ObtenerTipoComidaResponse();
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(ServicioCommon.Parametros.URLServicio);
+                var responseTask = client.GetAsync("/api/comun/tipocomida/");
+                responseTask.Wait();
+                var result = responseTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    var colaboradorResponse = result.Content.ReadAsStringAsync().Result;
+                    response = JsonConvert.DeserializeObject<ObtenerTipoComidaResponse>(colaboradorResponse);
+                }
+            }
+
+            return response;
+        }
+
+            public ObtenerComunResponse ObtenerComun()
         {
 
             ObtenerComunResponse response = new ObtenerComunResponse();

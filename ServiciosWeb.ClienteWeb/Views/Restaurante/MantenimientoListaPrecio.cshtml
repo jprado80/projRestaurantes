@@ -27,23 +27,25 @@
     <div class="form-group">
         @Html.LabelFor(model => model.PrecioProducto, htmlAttributes: new { @class = "control-label" })
         <br />
-        @Html.EditorFor(model => model.PrecioProducto, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.TextBoxFor(model => model.PrecioProducto, new { id = "txtPrecio", @class = "form-control", @type = "number" })
         @Html.ValidationMessageFor(model => model.PrecioProducto, "", new { @class = "text-danger" })
 
     </div>
 
     <div class="form-group">
         @Html.LabelFor(model => model.CodigoTipoComida, new { @class = "control-label" })
-        
-            @Html.DropDownListFor(model => model.CodigoTipoComida, Model.ListComida, "Seleccionar", new { id = "ddlTipoComida", @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.CodigoTipoComida, "", new { @class = "text-danger" })
-            @Html.HiddenFor(model => model.CodigoTipoComida, new { id = "hidenCodigoTipoComida" })
+        <br />
+        @Html.DropDownListFor(model => model.CodigoTipoComida, Model.ListComida, "Seleccionar", new { id = "ddlTipoComida", @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.CodigoTipoComida, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.CodigoTipoComida, new { id = "hidenCodigoTipoComida" })
 
-        
+
     </div>
+  
 
     <div class="form-group">
-
+        @Html.Label(" ", new { @class = "control-label" })
+        <br />
         <button type="button" id="btnAgregar" class="btn btn-primary btn-circle btn-sm"> + </button>
         <button type="button" id="btnRemover" class="btn btn-secondary btn-circle btn-sm"> - </button>
 
@@ -53,7 +55,139 @@
 
 
 
+<div class="box-body">
+
+    <div class="table-responsive">
+
+        <table id="gridListaPrecio" data-dataurl="@Url.Action("LitaPrecios", "Restaurante", new { })" class="table table-bordered table-hover"></table>
+
+
+    </div>
+
+</div>
+
+
+
+@section scripts{
+
+
+    <script type="text/javascript">
+
+
+        var gridlistaPrecio = "#gridListaPrecio";
+
+
+        var URlAreaGeneral = "";
+
+
+
+        $(document).ready(function () {
 
 
 
 
+            cargarGrillaTadaTable();
+
+
+
+        });
+
+
+
+
+
+        function cargarGrillaTadaTable() {
+
+
+            var url = $(gridlistaPrecio).data("dataurl");
+
+
+            $(gridlistaPrecio).DataTable({
+                "bProcessing": true,
+                "bServerSide": true,
+                "paging": true,
+                "ordering": false,
+                "lengthChange": false,
+                "searching": false,
+                "info": true,
+                "autoWidth": false,
+                "sAjaxSource": url,
+                "oLanguage": {
+                    "sProcessing": "Procesando...", "sLengthMenu": "Mostrar: _MENU_ ", "sZeroRecords": "No se encontraron resultados", "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "_START_ al _END_ de _TOTAL_ registro(s)", "sInfoEmpty": "0 al 0 de 0 registro(s)",
+                    "sInfoFiltered": "(filtrado de _MAX_)", "sInfoPostFix": "", "sSearch": "Buscar:", "sUrl": "", "sInfoThousands": ",", "sLoadingRecords": "Cargando...",
+                    "oPaginate": { "sFirst": "Primero", "sLast": "Último", "sNext": "Siguiente", "sPrevious": "Anterior" }, "oAria": { "sSortAscending": ": Activar para ordenar la columna de manera ascendente", "sSortDescending": ": Activar para ordenar la columna de manera descendente" }
+                },
+                "aoColumns": [
+                    { "mData": "prod_descrip", "sTitle": "Descripcion", "sWidth": "80px", },
+                    { "mData": "prod_precio", "sTitle": "Precio", "sWidth": "80px", },
+                    { "mData": "tico_id", "sTitle": "Tipo", "sWidth": "80px", },
+                    { "mData": "rest_ruc", "sTitle": "Seleccionar", "sWidth": "80px", },
+
+
+                ],
+                "fnServerData": function (sSource, aoData, fnCallback, oSettings) {
+                    oSettings.jqXHR = $.ajax({
+                        "url": sSource,
+                        "data": aoData,
+                        "dataType": 'json',
+                        "type": "POST",
+                        "success": function (responde, textStatus, jqXHR) {
+
+                            if (responde.OperacionType.estado_operacion == "0") {
+                                fnCallback(responde.DataTableResponse);
+                            }
+                            else {
+
+                                alert(responde.OperacionType.mensaje_operacion);
+
+                            }
+
+                        },
+                        "error": function (data) {
+
+                            alert(data.status);
+
+
+
+                        },
+                        "complete": function (xhr, status) {
+
+                        },
+
+                    });
+                },
+                "fnServerParams": function (aoData) {
+
+                    var Parameter = new Object();
+                    Parameter.RucRestaurante = "";
+                    Parameter.prm_reginicio = 0;
+                    Parameter.prm_regfin = 0;
+                    Parameter.total_registros = 0;
+
+
+
+
+                    RequestOperacionBE = new Object();
+                    RequestOperacionBE.OperacionType = new Object();
+                    RequestOperacionBE.OperacionType.codigo_operacion = "ListarPrecio";
+                    RequestOperacionBE.OperacionType.Objeto1 = JSON.stringify(Parameter);
+
+
+                    aoData.push({ name: "sData", value: JSON.stringify(RequestOperacionBE) });
+                },
+            });
+        }
+
+
+
+
+
+
+
+
+    </script>
+
+
+
+}

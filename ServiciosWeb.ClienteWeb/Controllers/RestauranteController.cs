@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using UPC.ApiServicesProxy;
 
 namespace ServiciosWeb.ClienteWeb.Controllers
@@ -31,6 +32,43 @@ namespace ServiciosWeb.ClienteWeb.Controllers
         public ActionResult MantenimientoListaPrecio()
         {
             MantenimientoListaPrecioModel model = new MantenimientoListaPrecioModel();
+            ProxyApiComun proxyComun = new ProxyApiComun();
+            var responseTipoComun = proxyComun.ObtenerTipoComida();
+
+            model.ListComida = new List<SelectListItemCustom>();
+
+            foreach (var item in responseTipoComun.TipoComida)
+            {
+                model.ListComida.Add(new SelectListItemCustom()
+                {
+                    Text = item.tico_descrip,
+                    Value = item.tico_id.ToString()
+                });
+            }
+
+
+
+            return View(model);
+        }
+
+
+        public ActionResult GestionMenu()
+        {
+            GestionMenuModel model = new GestionMenuModel();
+            ProxyApiComun proxyComun = new ProxyApiComun();
+            var responseTipoComun = proxyComun.ObtenerTipoComida();
+
+            model.ListProducto = new List<SelectListItemCustom>();
+
+            foreach (var item in responseTipoComun.TipoComida)
+            {
+                model.ListProducto.Add(new SelectListItemCustom()
+                {
+                    Text = item.tico_descrip,
+                    Value = item.tico_id.ToString()
+                });
+            }
+
 
 
             return View(model);
@@ -418,7 +456,73 @@ namespace ServiciosWeb.ClienteWeb.Controllers
 
 
 
+        public JsonResult LitaPrecios(FormCollection frm)
+        {
+            string iDisplayLength = HttpContext.Request.Form["iDisplayLength"];
+            string iDisplayStart = HttpContext.Request.Form["iDisplayStart"];
+            string sEcho = HttpContext.Request.Form["sEcho"];
+            string sData = HttpContext.Request.Form["sData"];
 
+            ResponseOperacionBE o_ResponseOperacion = new ResponseOperacionBE();
+            o_ResponseOperacion.OperacionType = new OperacionType();
+            o_ResponseOperacion.OperacionType.codigo_operacion = "LISTA_PRECIOS";
+            o_ResponseOperacion.OperacionType.nombre_operacion = "Listar precios";
+            o_ResponseOperacion.OperacionType.mensaje_operacion = "Listado con éxito";
+            o_ResponseOperacion.OperacionType.estado_operacion = "0";
+
+            RequestOperacionBE Request = new RequestOperacionBE();
+            Request = new JavaScriptSerializer().Deserialize<RequestOperacionBE>(sData);
+            Request.DataTableRquest = new DataTableRequest();
+
+            Request.DataTableRquest.iDisplayLength = Convert.ToInt32(iDisplayLength);
+            Request.DataTableRquest.iDisplayStart = Convert.ToInt32(iDisplayStart);
+            Request.DataTableRquest.sEcho = sEcho;
+
+
+            DataTableResponse ResponseOperacion = new DataTableResponse();
+            int nIdIniComp = Request.DataTableRquest.iDisplayStart;
+            int nIdFinComp = Request.DataTableRquest.iDisplayLength;
+
+            nIdFinComp = nIdIniComp + nIdFinComp;
+            nIdIniComp = nIdIniComp + 1;
+
+            try
+            {
+
+                var deserailizar = new JsonSerializerSettings();
+                deserailizar.DateFormatHandling = DateFormatHandling.MicrosoftDateFormat;
+
+                deserailizar.Culture = System.Threading.Thread.CurrentThread.CurrentCulture;
+                var parameter = Newtonsoft.Json.JsonConvert.DeserializeObject<ListarPrecioRequest>(Request.OperacionType.Objeto1.ToString(), deserailizar);
+
+                parameter.prm_reginicio = nIdIniComp;
+                parameter.prm_regfin = nIdFinComp;
+
+                ProxyApiProducto proxyProducto = new ProxyApiProducto();
+
+                ListaPrecioResponse result = proxyProducto.ListarPrecio(parameter);
+
+                result.totalregistros = 0;
+
+                ResponseOperacion.aaData = result.Hits;
+                ResponseOperacion.iTotalRecords = Request.DataTableRquest.iDisplayLength;
+                ResponseOperacion.iTotalDisplayRecords = result.totalregistros;
+                ResponseOperacion.sEcho = Request.DataTableRquest.sEcho;
+
+                o_ResponseOperacion.DataTableResponse = ResponseOperacion;
+
+            }
+            catch (Exception err)
+            {
+                
+                o_ResponseOperacion.OperacionType.mensaje_operacion = "Error inesperado";
+                o_ResponseOperacion.OperacionType.estado_operacion = "-1";
+            }
+
+            var jsonResult = new JsonResult { JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            jsonResult.Data = o_ResponseOperacion;
+            return jsonResult;
+        }
 
     }
 }

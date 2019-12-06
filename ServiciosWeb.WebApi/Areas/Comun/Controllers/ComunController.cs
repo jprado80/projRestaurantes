@@ -73,6 +73,7 @@ namespace ServiciosWeb.WebApi.Areas.Comun.Controllers
 
 
         [Route("api/comun/tipocomida/")]
+        [HttpGet]
         public IHttpActionResult ObtenerTipoComida()
         {
             ObtenerTipoComidaResponse objresponse = new ObtenerTipoComidaResponse();
@@ -92,6 +93,7 @@ namespace ServiciosWeb.WebApi.Areas.Comun.Controllers
 
                 objresponse.status.estado = 0;
                 objresponse.status.mensaje = "Exitoso";
+
             }
             catch (Exception err)
             {

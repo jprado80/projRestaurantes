@@ -1,0 +1,131 @@
+﻿@model ServiciosWeb.Dominio.Modelo.GestionMenuModel
+
+@{
+    ViewBag.Title = "GestionMenu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Gestion de Menus</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <hr />
+
+    <div class="row">
+
+        <div class="col-md-6">
+
+            <div class="form-horizontal">
+
+
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NroMenu, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.NroMenu, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.NroMenu, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DescripcionMenu, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.DescripcionMenu, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.DescripcionMenu, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+
+                    <center>
+                        <button type="button" id="btnAgregarMenu" class="btn btn-primary btn-circle btn-sm"> + </button>
+                        <button type="button" id="btnRemoverMenu" class="btn btn-secondary btn-circle btn-sm"> - </button>
+                    </center>
+                </div>
+
+            </div>
+
+            <div class="box-body">
+
+                <div class="table-responsive">
+
+                    <table id="gridListaMenu" data-dataurl="@Url.Action("LitaPrecios", "Restaurante", new { })" class="table table-bordered table-hover"></table>
+
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+
+        <div class="col-md-6">
+
+
+            <fieldset>
+
+                <legend>Menu Nro 0002</legend>
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CodigoProducto, new { @class = "control-label" })
+                        <br />
+                        @Html.DropDownListFor(model => model.CodigoProducto, Model.ListProducto, "Seleccionar", new { id = "ddlProducto", @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.CodigoProducto, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.CodigoProducto, new { id = "hidenCodigoProducto" })
+
+                    </div>
+
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+
+                        @Html.Label(" ", new { @class = "control-label" })
+                        <br />
+
+                        <button type="button" id="btnAgregarDetalle" class="btn btn-primary btn-circle btn-sm"> + </button>
+                        <button type="button" id="btnRemoverDetalle" class="btn btn-secondary btn-circle btn-sm"> - </button>
+
+                    </div>
+                </div>
+
+            </fieldset>
+
+
+
+
+
+
+            <div class="box-body">
+
+                <div class="table-responsive">
+
+                    <table id="gridListaMenuDetalle" data-dataurl="@Url.Action("LitaPrecios", "Restaurante", new { })" class="table table-bordered table-hover"></table>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+}
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
