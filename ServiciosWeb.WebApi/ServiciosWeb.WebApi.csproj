@@ -168,6 +168,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Areas\Restaurante\Controllers\ListaPrecioController.cs" />
+    <Compile Include="Areas\Restaurante\Controllers\ProductoController.cs" />
     <Compile Include="Areas\Restaurante\RestauranteAreaRegistration.cs" />
     <Compile Include="Areas\Seguridad\Controllers\AutenticarController.cs" />
     <Compile Include="Areas\Seguridad\SeguridadAreaRegistration.cs" />

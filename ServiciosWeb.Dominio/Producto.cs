@@ -16,6 +16,7 @@ namespace ServiciosWeb.Dominio
 
         public decimal? prod_precio { get; set; }
         public int tico_id { get; set; }
+        public string tico_descrip { get; set; }
         public string rest_ruc { get; set; }
 
 

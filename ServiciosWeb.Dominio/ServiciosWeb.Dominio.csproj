@@ -64,12 +64,14 @@
     <Compile Include="OperacionType.cs" />
     <Compile Include="RequestOperacionBE.cs" />
     <Compile Include="Request\CambiarClaveUsuarioRequest.cs" />
+    <Compile Include="Request\RegistrarProductoRequest.cs" />
     <Compile Include="Request\ListarPrecioRequest.cs" />
     <Compile Include="Request\ValidarClaveUsuarioRequest.cs" />
     <Compile Include="ResponseOperacionBE.cs" />
     <Compile Include="Response\CambiarClaveUsuarioResponse.cs" />
     <Compile Include="Response\ListaPrecioResponse.cs" />
     <Compile Include="Response\ObtenerComunResponse.cs" />
+    <Compile Include="Response\RegistrarProductoResponse.cs" />
     <Compile Include="Response\ObtenerTipoComidaResponse.cs" />
     <Compile Include="Response\ObtenerTelefonoUsuarioResponse.cs" />
     <Compile Include="Response\ValidarClaveUsuarioResponse.cs" />

@@ -409,6 +409,7 @@
     <Content Include="Plugins\datatables\extensions\TableTools\images\psd\printer.psd" />
     <Content Include="Plugins\datatables\extensions\TableTools\Readme.md" />
     <Content Include="Plugins\datatables\media\images\Sorting icons.psd" />
+    <Content Include="libman.json" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

@@ -19,7 +19,7 @@ namespace ServiciosWeb.ClienteWeb.Controllers
     public class RestauranteController : Controller
     {
 
-     
+
 
 
         // GET: Restaurante
@@ -51,6 +51,75 @@ namespace ServiciosWeb.ClienteWeb.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public ActionResult MantenimientoListaPrecio(MantenimientoListaPrecioModel model)
+        {
+
+
+
+
+
+            try
+            {
+
+                ProxyApiComun proxyComun = new ProxyApiComun();
+                var responseTipoComun = proxyComun.ObtenerTipoComida();
+
+                model.ListComida = new List<SelectListItemCustom>();
+
+                foreach (var item in responseTipoComun.TipoComida)
+                {
+                    model.ListComida.Add(new SelectListItemCustom()
+                    {
+                        Text = item.tico_descrip,
+                        Value = item.tico_id.ToString()
+                    });
+                }
+
+
+
+
+                SeguridadMVC.Seguridad.SessionWrapper objSesion = new SeguridadMVC.Seguridad.SessionWrapper();
+
+
+
+                ProxyApiUsuario apiUsuario = new ProxyApiUsuario();
+
+                var responseUsuario = apiUsuario.ObtenerUsuario(objSesion.Usuario.Idusuario);
+
+
+
+
+
+                RegistrarProductoRequest registrarProducto = new RegistrarProductoRequest();
+                registrarProducto.Producto = new Producto();
+                registrarProducto.Producto.tico_id = model.CodigoTipoComida;
+                registrarProducto.Producto.prod_descrip = model.DescripcionProducto;
+                registrarProducto.Producto.prod_nombre = model.DescripcionProducto;
+                registrarProducto.Producto.prod_precio = Convert.ToDecimal(model.PrecioProducto);
+                registrarProducto.Producto.rest_ruc = responseUsuario.Restaurante.rest_ruc;
+
+                registrarProducto.Producto.tico_id = model.CodigoTipoComida;
+
+
+                ProxyApiProducto proxyProducto = new ProxyApiProducto();
+
+                RegistrarProductoResponse result = proxyProducto.RegistrarProducto(registrarProducto);
+
+
+
+
+
+
+            }
+            catch (Exception err)
+            {
+
+
+            }
+
+            return View(model);
+        }
 
         public ActionResult GestionMenu()
         {
@@ -98,7 +167,7 @@ namespace ServiciosWeb.ClienteWeb.Controllers
 
 
 
-           SeguridadMVC.Seguridad.SessionWrapper objSesion = new SeguridadMVC.Seguridad.SessionWrapper();
+            SeguridadMVC.Seguridad.SessionWrapper objSesion = new SeguridadMVC.Seguridad.SessionWrapper();
 
             ProxyApiComun api = new ProxyApiComun();
             ProxyApiUsuario apiUsuario = new ProxyApiUsuario();
@@ -126,9 +195,9 @@ namespace ServiciosWeb.ClienteWeb.Controllers
                 model.esti_id = usuarioResponse.Restaurante.esti_id;
                 model.rest_descrip = usuarioResponse.Restaurante.rest_descrip;
 
-                if(usuarioResponse.Restaurante.rest_reservalocal !=null)
+                if (usuarioResponse.Restaurante.rest_reservalocal != null)
                 {
-                    model.rest_reservalocal = Convert.ToBoolean( usuarioResponse.Restaurante.rest_reservalocal);
+                    model.rest_reservalocal = Convert.ToBoolean(usuarioResponse.Restaurante.rest_reservalocal);
                 }
                 else
                 {
@@ -143,7 +212,7 @@ namespace ServiciosWeb.ClienteWeb.Controllers
                 {
                     model.rest_delivery = false;
                 }
-              
+
 
                 model.uscta_numero = usuarioResponse.Restaurante.uscta_numero;
                 model.ticta_id = usuarioResponse.Restaurante.ticta_id;
@@ -154,7 +223,7 @@ namespace ServiciosWeb.ClienteWeb.Controllers
 
 
             ObtenerComunResponse responseComun = api.ObtenerComun();
-     
+
 
             foreach (Distrito item in responseComun.Distritos)
             {
@@ -184,7 +253,7 @@ namespace ServiciosWeb.ClienteWeb.Controllers
 
 
 
-            var respuestaTelefonos =  api.ObtenerTelefonosUsuario(objSesion.Usuario.Idusuario);
+            var respuestaTelefonos = api.ObtenerTelefonosUsuario(objSesion.Usuario.Idusuario);
 
             if (respuestaTelefonos.status.estado == 0)
             {
@@ -338,7 +407,7 @@ namespace ServiciosWeb.ClienteWeb.Controllers
 
                 if (!ModelState.IsValid)
                 {
-                    
+
 
                     return View(model);
                 }
@@ -347,15 +416,15 @@ namespace ServiciosWeb.ClienteWeb.Controllers
 
                     RegistrarUsuarioRestauranteRequest request = new RegistrarUsuarioRestauranteRequest();
                     request.Usuario = new Usuario();
-                    request.Usuario.usua_id =model.usua_id;
-                    request.Usuario.dist_id =model.dist_id;
+                    request.Usuario.usua_id = model.usua_id;
+                    request.Usuario.dist_id = model.dist_id;
                     request.Usuario.usua_refedirec = model.usua_refedirec;
                     request.Usuario.usua_direc = model.usua_direc;
 
 
                     request.Restaurante = new Restaurante();
-                    request.Restaurante.usua_id =model.usua_id;
-                    request.Restaurante.rest_descrip =model.rest_descrip;
+                    request.Restaurante.usua_id = model.usua_id;
+                    request.Restaurante.rest_descrip = model.rest_descrip;
                     request.Restaurante.rest_delivery = model.rest_delivery;
                     request.Restaurante.rest_reservalocal = model.rest_reservalocal;
                     request.Restaurante.esti_id = model.esti_id;
@@ -364,9 +433,9 @@ namespace ServiciosWeb.ClienteWeb.Controllers
                     request.Restaurante.uscta_titular = model.uscta_titular;
                     request.Restaurante.ticta_id = model.ticta_id;
 
-                    request.Telefonos= listTelefonoRegistrar;
+                    request.Telefonos = listTelefonoRegistrar;
 
-                    var objRespuesta =  apiUsuario.ActualizarUsuarioRestaurante(request);
+                    var objRespuesta = apiUsuario.ActualizarUsuarioRestaurante(request);
 
 
                     if (objRespuesta.status.estado == 0)
@@ -375,14 +444,15 @@ namespace ServiciosWeb.ClienteWeb.Controllers
                         model.MensajeSucces = "Actualizado";
                         return View(model);
                     }
-                    else {
+                    else
+                    {
                         ModelState.AddModelError("MensajeGeneral", objRespuesta.status.mensaje);
                         return View(model);
                     }
-                    
 
 
-                    
+
+
 
 
                     //if (objRespuesta.status.estado == 0)
@@ -455,7 +525,35 @@ namespace ServiciosWeb.ClienteWeb.Controllers
         }
 
 
+        public JsonResult EliminarProducto(string datos)
+        {
 
+            ProcesoResponse respuesta = new ProcesoResponse();
+            ProxyApiProducto    proxyProducto = new ProxyApiProducto();
+
+
+
+
+            foreach (string item in datos.Split(';')) 
+            {
+                if(  item != string.Empty)
+                {
+                    proxyProducto.Eliminar(Convert.ToInt32(item));
+                }
+              
+
+
+            }
+
+
+
+
+
+            var jsonResult = new JsonResult { JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            jsonResult.Data = respuesta;
+
+            return jsonResult;
+        }
         public JsonResult LitaPrecios(FormCollection frm)
         {
             string iDisplayLength = HttpContext.Request.Form["iDisplayLength"];
@@ -489,6 +587,12 @@ namespace ServiciosWeb.ClienteWeb.Controllers
             try
             {
 
+                SeguridadMVC.Seguridad.SessionWrapper objSesion = new SeguridadMVC.Seguridad.SessionWrapper();
+                ProxyApiUsuario apiUsuario = new ProxyApiUsuario();
+
+                var responseUsuario = apiUsuario.ObtenerUsuario(objSesion.Usuario.Idusuario);
+
+
                 var deserailizar = new JsonSerializerSettings();
                 deserailizar.DateFormatHandling = DateFormatHandling.MicrosoftDateFormat;
 
@@ -498,11 +602,15 @@ namespace ServiciosWeb.ClienteWeb.Controllers
                 parameter.prm_reginicio = nIdIniComp;
                 parameter.prm_regfin = nIdFinComp;
 
+
+
+                parameter.RucRestaurante = responseUsuario.Restaurante.rest_ruc;
+
                 ProxyApiProducto proxyProducto = new ProxyApiProducto();
 
                 ListaPrecioResponse result = proxyProducto.ListarPrecio(parameter);
 
-                result.totalregistros = 0;
+
 
                 ResponseOperacion.aaData = result.Hits;
                 ResponseOperacion.iTotalRecords = Request.DataTableRquest.iDisplayLength;
@@ -514,7 +622,7 @@ namespace ServiciosWeb.ClienteWeb.Controllers
             }
             catch (Exception err)
             {
-                
+
                 o_ResponseOperacion.OperacionType.mensaje_operacion = "Error inesperado";
                 o_ResponseOperacion.OperacionType.estado_operacion = "-1";
             }
@@ -523,6 +631,9 @@ namespace ServiciosWeb.ClienteWeb.Controllers
             jsonResult.Data = o_ResponseOperacion;
             return jsonResult;
         }
+
+
+
 
     }
 }

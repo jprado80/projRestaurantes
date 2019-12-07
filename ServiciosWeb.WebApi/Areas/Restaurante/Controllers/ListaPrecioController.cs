@@ -40,10 +40,16 @@ namespace ServiciosWeb.WebApi.Areas.Restaurante.Controllers
 
             try
             {
-                var tProductos = BD.t_producto.Where(x => x.rest_ruc == reqest.RucRestaurante);
 
 
-                foreach (var item in tProductos)
+                var query = from p in BD.t_producto
+                            join c in BD.t_tipocomida on p.tico_id equals c.tico_id
+                            where p.rest_ruc.Equals(reqest.RucRestaurante)
+                            select new {  p.prod_descrip, p.prod_id,p.prod_nombre,p.prod_precio,p.rest_ruc,
+                                p.tico_id,c.tico_descrip };
+
+
+                foreach (var item in query)
                 {
 
                     objresponse.Hits.Add(new Dominio.Producto() {
@@ -52,14 +58,15 @@ namespace ServiciosWeb.WebApi.Areas.Restaurante.Controllers
                         prod_id = item.prod_id,
                         prod_nombre = item.prod_nombre,
                         prod_precio = item.prod_precio,
-                        rest_ruc = item.rest_ruc
-                         
+                        rest_ruc = item.rest_ruc,
+                        tico_descrip = item.tico_descrip
+
 
 
                     }) ;
                 }
 
-                objresponse.totalregistros = tProductos.Count();
+                objresponse.totalregistros = query.Count();
 
                 objresponse.status.estado = 0;
 
