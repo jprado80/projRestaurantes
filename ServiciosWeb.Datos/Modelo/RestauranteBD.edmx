@@ -36,6 +36,7 @@
           <Property Name="menu_nombre" Type="nvarchar" MaxLength="60" />
           <Property Name="menu_estado" Type="bit" />
           <Property Name="menu_publicado" Type="bit" />
+          <Property Name="menu_ruc" Type="nvarchar" MaxLength="11" />
         </EntityType>
         <EntityType Name="t_menudetalle">
           <Key>
@@ -274,6 +275,7 @@ advertencia 6002: La tabla o vista 'BDRestaurantes.dbo.t_pedidodetalle' no tiene
           <Property Name="menu_nombre" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
           <Property Name="menu_estado" Type="Boolean" />
           <Property Name="menu_publicado" Type="Boolean" />
+          <Property Name="menu_ruc" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="t_menudetalle">
           <Key>
@@ -503,6 +505,7 @@ advertencia 6002: La tabla o vista 'BDRestaurantes.dbo.t_pedidodetalle' no tiene
           <EntitySetMapping Name="t_menu">
             <EntityTypeMapping TypeName="BDRestaurantesModel.t_menu">
               <MappingFragment StoreEntitySet="t_menu">
+                <ScalarProperty Name="menu_ruc" ColumnName="menu_ruc" />
                 <ScalarProperty Name="menu_id" ColumnName="menu_id" />
                 <ScalarProperty Name="menu_nombre" ColumnName="menu_nombre" />
                 <ScalarProperty Name="menu_estado" ColumnName="menu_estado" />

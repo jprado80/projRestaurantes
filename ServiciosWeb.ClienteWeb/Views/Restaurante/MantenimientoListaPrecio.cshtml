@@ -19,7 +19,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.DescripcionProducto, htmlAttributes: new { @class = "control-label" })
         <br />
-        @Html.EditorFor(model => model.DescripcionProducto, new { htmlAttributes = new { @class = "form-control", @id="txtDescripcion" } })
+        @Html.EditorFor(model => model.DescripcionProducto, new { htmlAttributes = new { @class = "form-control", @id = "txtDescripcion" } })
         @Html.ValidationMessageFor(model => model.DescripcionProducto, "", new { @class = "text-danger" })
 
     </div>
@@ -27,7 +27,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.PrecioProducto, htmlAttributes: new { @class = "control-label" })
         <br />
-        @Html.TextBoxFor(model => model.PrecioProducto, new { id = "txtPrecio", @class = "form-control", @type = "number"})
+        @Html.TextBoxFor(model => model.PrecioProducto, new { id = "txtPrecio", @class = "form-control", @type = "number" })
         @Html.ValidationMessageFor(model => model.PrecioProducto, "", new { @class = "text-danger" })
 
     </div>
@@ -47,7 +47,7 @@
         @Html.Label(" ", new { @class = "control-label" })
         <br />
         <button type="button" id="btnAgregar" class="btn btn-primary btn-circle btn-sm" onclick="AgregarProducto()"> + </button>
-        <button type="button" id="btnRemover" class="btn btn-secondary btn-circle btn-sm"  onclick="Eliminar()"  > - </button>
+        <button type="button" id="btnRemover" class="btn btn-secondary btn-circle btn-sm" onclick="Eliminar()"> - </button>
 
     </div>
 
@@ -130,7 +130,7 @@
                     { "mData": "prod_precio", "sTitle": "Precio", "sWidth": "80px", },
                     { "mData": "tico_descrip", "sTitle": "Tipo", "sWidth": "80px", },
                     {
-                        "mData": null, "sTitle": "Estado Prioridad", "sWidth": "50px", "sClass": "usr-dt-center", "mRender": function (data, type, full) {
+                        "mData": null, "sTitle": "Seleccionar", "sWidth": "50px", "sClass": "usr-dt-center", "mRender": function (data, type, full) {
 
 
                             var acciones = ("<center><input type=\"checkbox\"   class=\"chkSelect\" data-codigo=\"" + full.prod_id + "\"  /></center>");
@@ -199,22 +199,24 @@
 
         function AgregarProducto() {
 
-           
+
             $("#frmId").submit();
+
+
+
         }
 
 
 
         function Eliminar() {
 
-            var DatosCheck="";
+            var DatosCheck = "";
 
 
             $('.chkSelect:checked').each(
-                function ()
-                {
-                    DatosCheck = DatosCheck+";" + $(this).data("codigo") ;
-                    
+                function () {
+                    DatosCheck = DatosCheck + ";" + $(this).data("codigo");
+
                 }
             );
 
@@ -222,30 +224,25 @@
             letUrl = $("#hindeEliminarProducto").data("dataurl");
 
             $.ajax(
-             {
-             type: "POST",
-             async: true,
-             url: letUrl,
-             data: { datos: DatosCheck },
-            success: function (data) {
+                {
+                    type: "POST",
+                    async: true,
+                    url: letUrl,
+                    data: { datos: DatosCheck },
+                    success: function (data) {
 
-                     $(gridlistaPrecio).dataTable().fnDraw();
-               
 
-             },
-            error: function (request, status, error) {
 
-             }
 
-         });
-          
-       
+                        $(gridlistaPrecio).dataTable().fnDraw();
 
+                    },
+                    error: function (request, status, error) {
+                        alert(error);
+                    }
+
+                });
         }
 
-
     </script>
-
-
-
 }

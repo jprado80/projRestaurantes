@@ -17,10 +17,26 @@ namespace UPC.ApiServicesProxy
     public class ProxyApiRestaurante
     {
 
-        
+        public ListaMenuResponse ListarMenu(ListarMenuRequest request)
+        {
 
+            ListaMenuResponse response = new ListaMenuResponse();
 
-   
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(ServicioCommon.Parametros.URLServicio);
+                var responseTask = client.GetAsync("api/ListaMenuRestaurante/" + request.CodigoUsuario);
+                responseTask.Wait();
+                var result = responseTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    var colaboradorResponse = result.Content.ReadAsStringAsync().Result;
+                    response = JsonConvert.DeserializeObject<ListaMenuResponse>(colaboradorResponse);
+                }
+            }
 
+            return response;
+
+        }
     }
 }

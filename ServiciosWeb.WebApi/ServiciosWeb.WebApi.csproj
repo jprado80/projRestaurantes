@@ -167,6 +167,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Areas\Restaurante\Controllers\ListaMenuRestauranteController.cs" />
     <Compile Include="Areas\Restaurante\Controllers\ListaPrecioController.cs" />
     <Compile Include="Areas\Restaurante\Controllers\ProductoController.cs" />
     <Compile Include="Areas\Restaurante\RestauranteAreaRegistration.cs" />
@@ -213,6 +214,7 @@
     <Content Include="Areas\Seguridad\Views\web.config" />
     <Content Include="Areas\Comun\Views\web.config" />
     <Content Include="Areas\Restaurante\Views\web.config" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

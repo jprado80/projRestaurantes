@@ -18,5 +18,6 @@ namespace ServiciosWeb.Datos.Modelo
         public string menu_nombre { get; set; }
         public Nullable<bool> menu_estado { get; set; }
         public Nullable<bool> menu_publicado { get; set; }
+        public string menu_ruc { get; set; }
     }
 }

@@ -8,62 +8,66 @@
 <h2>Gestion de Menus</h2>
 
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+
 
     <hr />
 
     <div class="row">
 
+
+
         <div class="col-md-6">
-
-            <div class="form-horizontal">
-
-
-
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @using (Html.BeginForm("GestionMenu", "Restaurante", FormMethod.Post, new { id = "frmMenu", @class = "form-inline" }))
+            {
+                @Html.AntiForgeryToken()
 
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.NroMenu, htmlAttributes: new { @class = "control-label col-md-3" })
-                    <div class="col-md-8">
-                        @Html.EditorFor(model => model.NroMenu, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.NroMenu, "", new { @class = "text-danger" })
+                <div class="form-horizontal">
+
+
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.NroMenu, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.NroMenu, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.NroMenu, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.DescripcionMenu, htmlAttributes: new { @class = "control-label col-md-3" })
-                    <div class="col-md-8">
-                        @Html.EditorFor(model => model.DescripcionMenu, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.DescripcionMenu, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DescripcionMenu, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.DescripcionMenu, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.DescripcionMenu, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
 
 
-                <div class="form-group">
+                    <div class="form-group">
 
-                    <center>
-                        <button type="button" id="btnAgregarMenu" class="btn btn-primary btn-circle btn-sm"> + </button>
-                        <button type="button" id="btnRemoverMenu" class="btn btn-secondary btn-circle btn-sm"> - </button>
-                    </center>
-                </div>
-
-            </div>
-
-            <div class="box-body">
-
-                <div class="table-responsive">
-
-                    <table id="gridListaMenu" data-dataurl="@Url.Action("LitaPrecios", "Restaurante", new { })" class="table table-bordered table-hover"></table>
-
+                        <center>
+                            <button type="button" id="btnAgregarMenu" class="btn btn-primary btn-circle btn-sm"> + </button>
+                            <button type="button" id="btnRemoverMenu" class="btn btn-secondary btn-circle btn-sm"> - </button>
+                        </center>
+                    </div>
 
                 </div>
 
-            </div>
+                <div class="box-body">
+
+                    <div class="table-responsive">
+
+                        <table id="gridListaMenu" data-dataurl="@Url.Action("LitaMenu", "Restaurante", new { })" class="table table-bordered table-hover"></table>
 
 
+                    </div>
+
+                </div>
+
+            }
 
         </div>
 
@@ -101,15 +105,11 @@
             </fieldset>
 
 
-
-
-
-
             <div class="box-body">
 
                 <div class="table-responsive">
 
-                    <table id="gridListaMenuDetalle" data-dataurl="@Url.Action("LitaPrecios", "Restaurante", new { })" class="table table-bordered table-hover"></table>
+                    <table id="gridListaMenuDetalle" data-dataurl="@Url.Action("ListaMenuDetalle", "Restaurante", new { })" class="table table-bordered table-hover"></table>
 
 
                 </div>
@@ -118,14 +118,195 @@
 
         </div>
 
+
+
     </div>
 
 
 
-}
+
 
 
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+
+    <script type="text/javascript">
+
+
+        var gridListaMenu = "#gridListaMenu";
+        var gridListaMenuDetalle = "#gridListaMenuDetalle";
+
+
+
+
+
+
+        $(document).ready(function () {
+
+
+
+
+            CargarGrillListaMenu();
+
+
+
+        });
+
+
+
+
+        function CargarGrillListaMenu() {
+
+
+            var url = $(gridListaMenu).data("dataurl");
+
+
+
+
+            $(gridListaMenu).DataTable({
+                "bProcessing": true,
+                "bServerSide": true,
+                "paging": true,
+                "ordering": false,
+                "lengthChange": false,
+                "searching": false,
+                "info": true,
+                "autoWidth": false,
+                "sAjaxSource": url,
+                "oLanguage": {
+                    "sProcessing": "Procesando...", "sLengthMenu": "Mostrar: _MENU_ ", "sZeroRecords": "No se encontraron resultados", "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "_START_ al _END_ de _TOTAL_ registro(s)", "sInfoEmpty": "0 al 0 de 0 registro(s)",
+                    "sInfoFiltered": "(filtrado de _MAX_)", "sInfoPostFix": "", "sSearch": "Buscar:", "sUrl": "", "sInfoThousands": ",", "sLoadingRecords": "Cargando...",
+                    "oPaginate": { "sFirst": "Primero", "sLast": "Último", "sNext": "Siguiente", "sPrevious": "Anterior" }, "oAria": { "sSortAscending": ": Activar para ordenar la columna de manera ascendente", "sSortDescending": ": Activar para ordenar la columna de manera descendente" }
+                },
+                "aoColumns": [
+                          {
+                        "mData": null, "sTitle": "Seleccionar", "sWidth": "50px", "sClass": "usr-dt-center", "mRender": function (data, type, full) {
+
+
+                            var acciones = ("<center><input type=\"checkbox\"    class=\"chkSelect\" data-codigo=\"" + full.menu_id + "\"  /></center>");
+
+                            return acciones;
+
+                        }
+                    },
+                    { "mData": "menu_id", "sTitle": "Nro", "sWidth": "80px", },
+                    { "mData": "menu_nombre", "sTitle": "Descripcion", "sWidth": "80px", },
+                    
+                    {
+                        "mData": null, "sTitle": "Publicar Menu", "sWidth": "50px", "sClass": "usr-dt-center", "mRender": function (data, type, full) {
+
+
+                            var acciones = ("<center><input type=\"checkbox\"  disabled=\"disabled\"  class=\"chkPublicar\" data-codigo=\"" + full.menu_publicado + "\"  /></center>");
+
+                            return acciones;
+
+                        }
+                    },
+
+                ],
+                "fnServerData": function (sSource, aoData, fnCallback, oSettings) {
+                    oSettings.jqXHR = $.ajax({
+                        "url": sSource,
+                        "data": aoData,
+                        "dataType": 'json',
+                        "type": "POST",
+                        "success": function (responde, textStatus, jqXHR) {
+
+                            if (responde.OperacionType.estado_operacion == "0") {
+                                fnCallback(responde.DataTableResponse);
+                            }
+                            else {
+
+                                alert(responde.OperacionType.mensaje_operacion);
+
+                            }
+
+                        },
+                        "error": function (data) {
+
+                            alert(data.status);
+
+
+
+                        },
+                        "complete": function (xhr, status) {
+
+                        },
+
+                    });
+                },
+                "fnServerParams": function (aoData) {
+
+                    var Parameter = new Object();
+                    Parameter.RucRestaurante = "";
+
+
+                    RequestOperacionBE = new Object();
+                    RequestOperacionBE.OperacionType = new Object();
+                    RequestOperacionBE.OperacionType.codigo_operacion = "ListarMenu";
+                    RequestOperacionBE.OperacionType.Objeto1 = JSON.stringify(Parameter);
+
+
+                    aoData.push({ name: "sData", value: JSON.stringify(RequestOperacionBE) });
+                },
+            });
+        }
+
+
+
+
+        function AgregarProducto() {
+
+
+            $("#frmId").submit();
+
+
+
+        }
+
+
+
+        function Eliminar() {
+
+            var DatosCheck = "";
+
+
+            $('.chkSelect:checked').each(
+                function () {
+                    DatosCheck = DatosCheck + ";" + $(this).data("codigo");
+
+                }
+            );
+
+
+            letUrl = $("#hindeEliminarProducto").data("dataurl");
+
+            $.ajax(
+                {
+                    type: "POST",
+                    async: true,
+                    url: letUrl,
+                    data: { datos: DatosCheck },
+                    success: function (data) {
+
+
+
+
+                        $(gridlistaPrecio).dataTable().fnDraw();
+
+                    },
+                    error: function (request, status, error) {
+                        alert(error);
+                    }
+
+                });
+        }
+
+    </script>
+
+
+
 }

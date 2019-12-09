@@ -27,7 +27,7 @@ namespace UPC.ApiServicesProxy
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(ServicioCommon.Parametros.URLServicio);
-                var responseTask = client.DeleteAsync("/api/producto/" + codigo);
+                var responseTask = client.DeleteAsync("api/producto/" + codigo);
                 responseTask.Wait();
                 var result = responseTask.Result;
                 if (result.IsSuccessStatusCode)
@@ -71,9 +71,6 @@ namespace UPC.ApiServicesProxy
 
             ListaPrecioResponse response = new ListaPrecioResponse();
 
-         
-
-     
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(ServicioCommon.Parametros.URLServicio);

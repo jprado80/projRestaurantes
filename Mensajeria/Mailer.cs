@@ -44,14 +44,17 @@
 
             SmtpClient Cliente = new SmtpClient();
 
+
+
+
             Cliente.Host = "smtp.gmail.com";
 
-            Cliente.Port = 25;
+            Cliente.Port = 587;
 
             Cliente.EnableSsl = true;
             Cliente.UseDefaultCredentials = false;
 
-            Cliente.Credentials = new NetworkCredential("jfloresninaco@gmail.com", "gqrpqmlaampjbtqz");
+            Cliente.Credentials = new NetworkCredential("jfloresninaco@gmail.com", "ipwiumnicusgtomy");
 
             Cliente.DeliveryMethod = SmtpDeliveryMethod.Network;
             Cliente.Send(mail);

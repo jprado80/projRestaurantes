@@ -26,7 +26,7 @@ namespace UPC.ApiServicesProxy
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(ServicioCommon.Parametros.URLServicio);
-                var responseTask = client.GetAsync("/api/tipotelefono/" );
+                var responseTask = client.GetAsync("api/tipotelefono/" );
                 responseTask.Wait();
                 var result = responseTask.Result;
                 if (result.IsSuccessStatusCode)
@@ -48,7 +48,7 @@ namespace UPC.ApiServicesProxy
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(ServicioCommon.Parametros.URLServicio);
-                var responseTask = client.GetAsync("/api/telefono/usuario?id="+ CodigoUsuario);
+                var responseTask = client.GetAsync("api/telefono/usuario?id="+ CodigoUsuario);
                 responseTask.Wait();
                 var result = responseTask.Result;
                 if (result.IsSuccessStatusCode)
@@ -72,7 +72,7 @@ namespace UPC.ApiServicesProxy
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(ServicioCommon.Parametros.URLServicio);
-                var responseTask = client.GetAsync("/api/comun/tipocomida/");
+                var responseTask = client.GetAsync("api/comun/tipocomida/");
                 responseTask.Wait();
                 var result = responseTask.Result;
                 if (result.IsSuccessStatusCode)
@@ -93,7 +93,7 @@ namespace UPC.ApiServicesProxy
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(ServicioCommon.Parametros.URLServicio);
-                var responseTask = client.GetAsync("/api/comun/");
+                var responseTask = client.GetAsync("api/comun/");
                 responseTask.Wait();
                 var result = responseTask.Result;
                 if (result.IsSuccessStatusCode)

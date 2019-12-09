@@ -107,14 +107,26 @@ namespace ServiciosWeb.ClienteWeb.Controllers
                 RegistrarProductoResponse result = proxyProducto.RegistrarProducto(registrarProducto);
 
 
+                if (result.status.estado == 0)
+                {
+                    model.CodigoTipoComida = 0;
+                    
+                    model.DescripcionProducto = "";
+                    model.PrecioProducto = "";
 
+                    return RedirectToAction("MantenimientoListaPrecio");
+                }
+                else {
+
+                    ModelState.AddModelError("MensajeGeneral", result.status.mensaje);
+                }
 
 
 
             }
             catch (Exception err)
             {
-
+                ModelState.AddModelError("MensajeGeneral", err.Message);
 
             }
 
@@ -527,12 +539,8 @@ namespace ServiciosWeb.ClienteWeb.Controllers
 
         public JsonResult EliminarProducto(string datos)
         {
-
             ProcesoResponse respuesta = new ProcesoResponse();
             ProxyApiProducto    proxyProducto = new ProxyApiProducto();
-
-
-
 
             foreach (string item in datos.Split(';')) 
             {
@@ -540,14 +548,8 @@ namespace ServiciosWeb.ClienteWeb.Controllers
                 {
                     proxyProducto.Eliminar(Convert.ToInt32(item));
                 }
-              
-
 
             }
-
-
-
-
 
             var jsonResult = new JsonResult { JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             jsonResult.Data = respuesta;
@@ -632,7 +634,82 @@ namespace ServiciosWeb.ClienteWeb.Controllers
             return jsonResult;
         }
 
+        public JsonResult LitaMenu(FormCollection frm)
+        {
+            string iDisplayLength = HttpContext.Request.Form["iDisplayLength"];
+            string iDisplayStart = HttpContext.Request.Form["iDisplayStart"];
+            string sEcho = HttpContext.Request.Form["sEcho"];
+            string sData = HttpContext.Request.Form["sData"];
 
+            ResponseOperacionBE o_ResponseOperacion = new ResponseOperacionBE();
+            o_ResponseOperacion.OperacionType = new OperacionType();
+            o_ResponseOperacion.OperacionType.codigo_operacion = "LISTAR_MENU";
+            o_ResponseOperacion.OperacionType.nombre_operacion = "Listar precios";
+            o_ResponseOperacion.OperacionType.mensaje_operacion = "Listado con éxito";
+            o_ResponseOperacion.OperacionType.estado_operacion = "0";
+
+            RequestOperacionBE Request = new RequestOperacionBE();
+            Request = new JavaScriptSerializer().Deserialize<RequestOperacionBE>(sData);
+            Request.DataTableRquest = new DataTableRequest();
+
+            Request.DataTableRquest.iDisplayLength = Convert.ToInt32(iDisplayLength);
+            Request.DataTableRquest.iDisplayStart = Convert.ToInt32(iDisplayStart);
+            Request.DataTableRquest.sEcho = sEcho;
+
+
+            DataTableResponse ResponseOperacion = new DataTableResponse();
+            int nIdIniComp = Request.DataTableRquest.iDisplayStart;
+            int nIdFinComp = Request.DataTableRquest.iDisplayLength;
+
+            nIdFinComp = nIdIniComp + nIdFinComp;
+            nIdIniComp = nIdIniComp + 1;
+
+            try
+            {
+
+                SeguridadMVC.Seguridad.SessionWrapper objSesion = new SeguridadMVC.Seguridad.SessionWrapper();
+                ProxyApiUsuario apiUsuario = new ProxyApiUsuario();
+
+                var responseUsuario = apiUsuario.ObtenerUsuario(objSesion.Usuario.Idusuario);
+
+
+                var deserailizar = new JsonSerializerSettings();
+                deserailizar.DateFormatHandling = DateFormatHandling.MicrosoftDateFormat;
+
+                deserailizar.Culture = System.Threading.Thread.CurrentThread.CurrentCulture;
+                var parameter = Newtonsoft.Json.JsonConvert.DeserializeObject<ListarMenuRequest>(Request.OperacionType.Objeto1.ToString(), deserailizar);
+
+                parameter.prm_reginicio = nIdIniComp;
+                parameter.prm_regfin = nIdFinComp;
+
+
+
+                parameter.CodigoUsuario = responseUsuario.Usuario.usua_id;
+
+                ProxyApiRestaurante proxyRestauramte = new ProxyApiRestaurante();
+
+                ListaMenuResponse result = proxyRestauramte.ListarMenu(parameter);
+
+
+
+                ResponseOperacion.aaData = result.Hits;
+                ResponseOperacion.iTotalRecords = Request.DataTableRquest.iDisplayLength;
+                ResponseOperacion.iTotalDisplayRecords = result.totalregistros;
+                ResponseOperacion.sEcho = Request.DataTableRquest.sEcho;
+
+                o_ResponseOperacion.DataTableResponse = ResponseOperacion;
+
+            }
+            catch (Exception err)
+            {
+                o_ResponseOperacion.OperacionType.mensaje_operacion = err.Message;
+                o_ResponseOperacion.OperacionType.estado_operacion = "-1";
+            }
+
+            var jsonResult = new JsonResult { JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            jsonResult.Data = o_ResponseOperacion;
+            return jsonResult;
+        }
 
 
     }

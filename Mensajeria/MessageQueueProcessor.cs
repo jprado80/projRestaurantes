@@ -19,7 +19,8 @@ namespace Mensajeria
     [ClassInterface(ClassInterfaceType.AutoDispatch)]
     [Synchronization(SynchronizationOption.Required)]
     [ComVisible(true)]
-    public class MessageQueueProcessor : ServicedComponent
+    public class MessageQueueProcessor 
+        : ServicedComponent
     {
     
         public void ProcessMessage(object MsgBody, string MQPath)
@@ -67,14 +68,14 @@ namespace Mensajeria
 
 
 
-                //Mailer CorreoSolicitud = new Mailer();
-                //List<String> listCorreso = new List<string>();
-                //listCorreso.Add(TheOrder.CorreoUsuario);
-                //CorreoSolicitud.Notificacion.CorreosPara = listCorreso;
-                //CorreoSolicitud.Notificacion.ConCopia = "";
-                //CorreoSolicitud.Notificacion.Asunto = TheOrder.Asunto;
-                //CorreoSolicitud.Notificacion.Cuerpo = TheOrder.Mensaje;
-                //CorreoSolicitud.Enviar();
+                Mailer CorreoSolicitud = new Mailer();
+                List<String> listCorreso = new List<string>();
+                listCorreso.Add(TheOrder.CorreoUsuario);
+                CorreoSolicitud.Notificacion.CorreosPara = listCorreso;
+                CorreoSolicitud.Notificacion.ConCopia = "";
+                CorreoSolicitud.Notificacion.Asunto = TheOrder.Asunto;
+                CorreoSolicitud.Notificacion.Cuerpo = TheOrder.Mensaje;
+                CorreoSolicitud.Enviar();
 
 
                 //MQueue.Close();

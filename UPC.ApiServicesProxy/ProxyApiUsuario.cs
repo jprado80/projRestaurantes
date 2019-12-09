@@ -160,7 +160,7 @@ namespace UPC.ApiServicesProxy
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(ServicioCommon.Parametros.URLServicio);
-                var responseTask = client.GetAsync("/api/usuario/" + Codigo);
+                var responseTask = client.GetAsync("api/usuario/" + Codigo);
                 responseTask.Wait();
                 var result = responseTask.Result;
                 if (result.IsSuccessStatusCode)
@@ -183,7 +183,7 @@ namespace UPC.ApiServicesProxy
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(ServicioCommon.Parametros.URLServicio);
-                var responseTask = client.GetAsync("/api/usuario/activarcuenta?id=" + Codigo);
+                var responseTask = client.GetAsync("api/usuario/activarcuenta?id=" + Codigo);
                 responseTask.Wait();
                 var result = responseTask.Result;
                 if (result.IsSuccessStatusCode)
@@ -206,7 +206,7 @@ namespace UPC.ApiServicesProxy
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(ServicioCommon.Parametros.URLServicio);
-                var responseTask = client.GetAsync("/api/usuario/search_correo/?correo=" + Correo);
+                var responseTask = client.GetAsync("api/usuario/search_correo/?correo=" + Correo);
                 responseTask.Wait();
                 var result = responseTask.Result;
                 if (result.IsSuccessStatusCode)
