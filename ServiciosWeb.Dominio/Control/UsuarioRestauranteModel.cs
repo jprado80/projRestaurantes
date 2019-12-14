@@ -8,6 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
+using System.IO;
+using System.Web;
+
 namespace ServiciosWeb.Dominio
 {
     public class UsuarioRestauranteModel
@@ -101,6 +104,12 @@ namespace ServiciosWeb.Dominio
         public List<SelectListItemCustom> TipoCuenta { get; set; }
 
         public List<SelectListItemCustom> ListTipoTelefono { get; set; }
+
+
+
+        [DisplayName("Foto")]
+   
+        public HttpPostedFileBase uploadFile { get; set; }
 
     }
 }

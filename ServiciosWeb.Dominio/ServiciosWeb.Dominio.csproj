@@ -40,6 +40,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.4\lib\net45\System.Web.Mvc.dll</HintPath>
@@ -59,21 +60,33 @@
     <Compile Include="DataTableResponse.cs" />
     <Compile Include="ErrorManager.cs" />
     <Compile Include="Menu.cs" />
+    <Compile Include="MenuDetalle.cs" />
     <Compile Include="Modelo\CambiarContrasenModel.cs" />
+    <Compile Include="Modelo\MantenimientoMenuDetalleModel.cs" />
+    <Compile Include="Modelo\MantenimientoMenuModel.cs" />
     <Compile Include="Modelo\GestionMenuModel.cs" />
     <Compile Include="Modelo\MantenimientoListaPrecioModel.cs" />
     <Compile Include="OperacionType.cs" />
     <Compile Include="RequestOperacionBE.cs" />
     <Compile Include="Request\CambiarClaveUsuarioRequest.cs" />
+    <Compile Include="Request\ListarMenuDetalleRequest.cs" />
+    <Compile Include="Request\ListarProductoRequest.cs" />
+    <Compile Include="Request\MenuDetalleRegistrarRequest.cs" />
+    <Compile Include="Request\MenuRegistrarRequest.cs" />
     <Compile Include="Request\ListarMenuRequest.cs" />
     <Compile Include="Request\RegistrarProductoRequest.cs" />
     <Compile Include="Request\ListarPrecioRequest.cs" />
     <Compile Include="Request\ValidarClaveUsuarioRequest.cs" />
     <Compile Include="ResponseOperacionBE.cs" />
     <Compile Include="Response\CambiarClaveUsuarioResponse.cs" />
+    <Compile Include="Response\ListaMenuDetalleResponse.cs" />
+    <Compile Include="Response\LeerProductoResponse.cs" />
+    <Compile Include="Response\ListarProductoResponse.cs" />
     <Compile Include="Response\ListaMenuResponse.cs" />
     <Compile Include="Response\ListaPrecioResponse.cs" />
+    <Compile Include="Response\MenuDetalleRegistrarResponse.cs" />
     <Compile Include="Response\ObtenerComunResponse.cs" />
+    <Compile Include="Response\MenuRegistrarResponse.cs" />
     <Compile Include="Response\RegistrarProductoResponse.cs" />
     <Compile Include="Response\ObtenerTipoComidaResponse.cs" />
     <Compile Include="Response\ObtenerTelefonoUsuarioResponse.cs" />

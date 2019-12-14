@@ -1,6 +1,7 @@
 ﻿using ServiciosWeb.Datos.Modelo;
 using ServiciosWeb.Dominio.Request;
 using ServiciosWeb.Dominio.Response;
+using ServiciosWeb.DominioResponse;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ using System.Web.Http;
 
 namespace ServiciosWeb.WebApi.Areas.Restaurante.Controllers
 {
-    public class ListaMenuRestauranteController : ApiController
+    public class MenuController : ApiController
     {
 
         BDRestaurantesEntities BD = new BDRestaurantesEntities();
@@ -89,8 +90,46 @@ namespace ServiciosWeb.WebApi.Areas.Restaurante.Controllers
 
 
         // POST: api/ListaPrecio
-        public void Post([FromBody]string value)
+        public IHttpActionResult Post([FromBody]MenuRegistrarRequest request)
         {
+
+            MenuRegistrarResponse objresponse = new MenuRegistrarResponse();
+            objresponse.status = new ProcesoResponse();
+
+
+            try
+            {
+
+                t_menu tMenu = new t_menu();
+                tMenu.menu_estado = request.Menu.menu_estado;
+                tMenu.menu_nombre = request.Menu.menu_nombre;
+                tMenu.menu_publicado = request.Menu.menu_publicado;
+                tMenu.menu_ruc = request.Menu.menu_ruc;
+                
+                BD.t_menu.Add(tMenu);
+                BD.SaveChanges();
+
+
+                objresponse.Menu = request.Menu;
+                objresponse.Menu.menu_id = tMenu.menu_id;
+
+
+
+                objresponse.status.estado = 0;
+                objresponse.status.mensaje = "Registrado con exito";
+
+
+            }
+            catch (Exception err)
+            {
+                objresponse.status.estado = -1;
+                objresponse.status.mensaje = err.Message;
+                throw err;
+
+            }
+
+            return Ok(objresponse);
+
         }
 
         // PUT: api/ListaPrecio/5
@@ -101,6 +140,36 @@ namespace ServiciosWeb.WebApi.Areas.Restaurante.Controllers
         // DELETE: api/ListaPrecio/5
         public void Delete(int id)
         {
+
+
+
+
+            try
+            {
+
+
+                t_menu tMenu = BD.t_menu.FirstOrDefault(x => x.menu_id == id);
+
+                if (tMenu != null)
+                {
+                    BD.t_menu.Remove(tMenu);
+                }
+
+                BD.SaveChanges();
+
+
+
+
+            }
+            catch (Exception err)
+            {
+
+                throw err;
+
+            }
+
+
+
         }
     }
 }

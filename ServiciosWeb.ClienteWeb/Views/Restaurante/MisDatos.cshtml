@@ -14,202 +14,226 @@
 <div class="row">
 
 
-    <div class="col-md-8">
-
-        
-
-
-
-
-
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("MisDatos", "Restaurante", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
 
-        <div class="form-horizontal">
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-md-8">
 
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-            <div class="form-group">
-                @Html.Label("Razon Social: ", htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="form-group">
+                    @Html.Label("Razon Social: ", htmlAttributes: new { @class = "control-label col-md-3" })
 
-                <div class="col-md-8">
-                    @Model.rest_rz
-                </div>
-            </div>
-
-
-            <div class="form-group">
-                @Html.Label("RUC: ", htmlAttributes: new { @class = "control-label col-md-3" })
-
-                <div class="col-md-8">
-
-                    @Model.rest_ruc
-
-
-                </div>
-            </div>
-
-
-            <div class="form-group">
-                @Html.Label("Email: ", htmlAttributes: new { @class = "control-label col-md-3" })
-
-                <div class="col-md-8">
-                    @Model.usua_email
-                </div>
-            </div>
-
-
-
-            <hr />
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.rest_nomcomer, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-8">
-                    @Html.EditorFor(model => model.rest_nomcomer, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.rest_nomcomer, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.usua_direc, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-8">
-                    @Html.EditorFor(model => model.usua_direc, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.usua_direc, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.dist_id, new { @class = "col-md-3 control-label" })
-                <div class="col-md-8">
-                    @Html.DropDownListFor(model => model.dist_id, Model.Distritos, "Seleccionar", new { id = "ddlDistrito", @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.dist_id, "", new { @class = "text-danger" })
-                    @Html.HiddenFor(model => model.dist_id, new { id = "hidenCodigoDistrito" })
-
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.usua_refedirec, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-8">
-                    @Html.EditorFor(model => model.usua_refedirec, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-            </div>
-
-            <div class="form-group">
-
-                <div class="col-md-3">
-                    @Html.Label("Nro de Contacto", htmlAttributes: new { @class = "control-label" })
-
+                    <div class="col-md-8">
+                        @Model.rest_rz
+                    </div>
                 </div>
 
 
-                <div id="divContentContacto" class="col-md-8">
+                <div class="form-group">
+                    @Html.Label("RUC: ", htmlAttributes: new { @class = "control-label col-md-3" })
 
-                    <div class="row clonar">
-                        @Html.ContactoControlFor(model => model.CodigoContacto, "Contacto", Model.ListTipoTelefono)
+                    <div class="col-md-8">
 
-                        <div class="col-md-2">
+                        @Model.rest_ruc
 
-                            <input type="button" value="Quitar" class="btn btn-default" onclick="remove(0)" />
 
-                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.Label("Email: ", htmlAttributes: new { @class = "control-label col-md-3" })
+
+                    <div class="col-md-8">
+                        @Model.usua_email
+                    </div>
+                </div>
+
+
+
+                <hr />
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.rest_nomcomer, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.rest_nomcomer, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.rest_nomcomer, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.usua_direc, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.usua_direc, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.usua_direc, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.dist_id, new { @class = "col-md-3 control-label" })
+                    <div class="col-md-8">
+                        @Html.DropDownListFor(model => model.dist_id, Model.Distritos, "Seleccionar", new { id = "ddlDistrito", @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.dist_id, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.dist_id, new { id = "hidenCodigoDistrito" })
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.usua_refedirec, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.usua_refedirec, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+
+                    <div class="col-md-3">
+                        @Html.Label("Nro de Contacto", htmlAttributes: new { @class = "control-label" })
 
                     </div>
 
 
+                    <div id="divContentContacto" class="col-md-8">
+
+                        <div class="row clonar">
+                            @Html.ContactoControlFor(model => model.CodigoContacto, "Contacto", Model.ListTipoTelefono)
+
+                            <div class="col-md-2">
+
+                                <input type="button" value="Quitar" class="btn btn-default" onclick="remove(0)" />
+
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+
 
                 </div>
 
+                <div class="form-group">
+                    <div class="col-md-3">
+
+                    </div>
+                    <div class="col-md-8">
+                        <input type="button" value="Agregar" class="btn btn-default" onclick="agregar()" />
+
+                    </div>
+
+                </div>
+
+
+                <input type="hidden" id="hidenTelefonos" value="@Model.Telefonos" />
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.esti_id, new { @class = "col-md-3 control-label" })
+                    <div class="col-md-8">
+                        @Html.DropDownListFor(model => model.esti_id, Model.EspecialidadTipo, "Seleccionar", new { id = "ddlTipoEspecialidad", @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.esti_id, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.esti_id, new { id = "HidenEspecialidad" })
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.rest_descrip, new { @class = "col-md-3 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextAreaFor(model => model.rest_descrip, new { @class = "form-control" })
+
+
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label(" ", new { @class = "col-md-3 control-label" })
+                    <div class="col-lg-4">
+                        @Html.Label("Hace Delivery", new { @class = "control-label" })
+
+                        @Html.CheckBoxFor(m => m.rest_delivery, new { })
+                        @Html.ValidationMessageFor(model => model.rest_delivery, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.rest_delivery, new { id = "hidenDelivery" })
+
+                    </div>
+                    <div class="col-lg-4">
+                        @Html.Label("Hace Reserva Local", new { @class = "control-label" })
+                        @Html.CheckBoxFor(m => m.rest_reservalocal, new { })
+                        @Html.ValidationMessageFor(model => model.rest_reservalocal, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.rest_reservalocal, new { id = "hidenReservaLocal" })
+
+                    </div>
+                </div>
+
+
+                <hr />
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.uscta_numero, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(model => model.uscta_numero, new { @class = "form-control" })
+
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ticta_id, new { @class = "col-md-3 control-label" })
+                    <div class="col-md-8">
+                        @Html.DropDownListFor(model => model.ticta_id, Model.TipoCuenta, "Seleccionar", new { id = "ddlTipoCuenta", @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ticta_id, "", new { @class = "text-danger" })
+
+
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.uscta_titular, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(model => model.uscta_titular, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.uscta_titular, "", new { @class = "text-danger" })
+                    </div>
+                </div>
 
             </div>
 
-            <div class="form-group">
-                <div class="col-md-3">
+            <div class="col-md-4">
+                <a href="#" id="aSubirFoto"> Subir Foto</a>
+                <div class="row" style="display:none">
+
+                    @Html.TextBoxFor(model => model.uploadFile, new { @id = "fileUpload", @type = "file", @accept = "image/x-png,image/gif,image/jpeg" })
 
                 </div>
-                <div class="col-md-8">
-                    <input type="button" value="Agregar" class="btn btn-default" onclick="agregar()" />
+                @Html.ValidationMessageFor(model => model.uploadFile, "", new { @class = "text-danger" })
+           
 
-                </div>
+                <div class="row">
+                    <div class="pull-center image">
+                        <center>
+                            <div id="divPrevio">
 
-            </div>
-
-
-            <input type="hidden" id="hidenTelefonos" value="@Model.Telefonos" />
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.esti_id, new { @class = "col-md-3 control-label" })
-                <div class="col-md-8">
-                    @Html.DropDownListFor(model => model.esti_id, Model.EspecialidadTipo, "Seleccionar", new { id = "ddlTipoEspecialidad", @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.esti_id, "", new { @class = "text-danger" })
-                    @Html.HiddenFor(model => model.esti_id, new { id = "hidenCodigoDistrito" })
-
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.rest_descrip, new { @class = "col-md-3 control-label" })
-                <div class="col-md-8">
-                    @Html.TextAreaFor(model => model.rest_descrip, new { @class = "form-control" })
-
-
+                                <img src="@Model.usua_rutaimagen"
+                                     style="max-width:150px"
+                                     class="" alt="Colaborador">
+                            </div>
+                        </center>
+                    </div>
 
                 </div>
             </div>
 
-            <div class="form-group">
-                @Html.Label(" ", new { @class = "col-md-3 control-label" })
-                <div class="col-lg-4">
-                    @Html.Label("Hace Delivery", new { @class = "control-label" })
+        </div>
 
-                    @Html.CheckBoxFor(m => m.rest_delivery, new { })
-                    @Html.ValidationMessageFor(model => model.rest_delivery, "", new { @class = "text-danger" })
-                    @Html.HiddenFor(model => model.rest_delivery, new { id = "hidenCodigoDistrito" })
-
-                </div>
-                <div class="col-lg-4">
-                    @Html.Label("Hace Reserva Local", new { @class = "control-label" })
-                    @Html.CheckBoxFor(m => m.rest_reservalocal, new { })
-                    @Html.ValidationMessageFor(model => model.rest_reservalocal, "", new { @class = "text-danger" })
-                    @Html.HiddenFor(model => model.rest_reservalocal, new { id = "hidenCodigoDistrito" })
-
-                </div>
-            </div>
-
-
-            <hr />
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.uscta_numero, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-8">
-                    @Html.TextBoxFor(model => model.uscta_numero, new { @class = "form-control" })
-
-                </div>
-            </div>
-
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.ticta_id, new { @class = "col-md-3 control-label" })
-                <div class="col-md-8">
-                    @Html.DropDownListFor(model => model.ticta_id, Model.TipoCuenta, "Seleccionar", new { id = "ddlTipoCuenta", @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.ticta_id, "", new { @class = "text-danger" })
-
-
-                </div>
-            </div>
-
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.uscta_titular, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-8">
-                    @Html.TextBoxFor(model => model.uscta_titular, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.uscta_titular, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
+        <div class="row">
             <div class="alert alert-danger" id="divAlerta" role="alert">
                 @Html.ValidationMessage("MensajeGeneral", htmlAttributes: new { @id = "spanError" })
             </div>
@@ -225,18 +249,23 @@
                     <input type="submit" value="Registrar" class="btn btn-primary" />
                 </center>
             </div>
-
-
         </div>
+
+
+
+    </div>
+
+
+
+
+
+
 
         }
 
+
     </div>
 
-
-    <div class="col-md-4">
-        Fotos
-    </div>
 
     @section scripts{
 
@@ -265,7 +294,7 @@
 
                 }
 
-                
+
 
 
                 let varTelefono = $("#hidenTelefonos").val();
@@ -333,6 +362,69 @@
                     }
 
                 }
+
+
+
+                $("#ubicacion-error").hide();
+                $("#uploadFile-file-error").hide();
+
+
+        
+                document.getElementById("fileUpload").onchange = function (e) {
+
+                    let reader = new FileReader();
+                    var letfile = e.target.files[0];
+                    reader.readAsDataURL(letfile);
+                    reader.onload = function () {
+
+
+                        if (/.(gif|jpeg|jpg|png)$/i.test(letfile.name) == true) {
+
+
+
+                            let preview = document.getElementById('divPrevio'),
+
+                                image = document.createElement('img');
+                            image.height = 150;
+                            image.src = reader.result;
+                            preview.innerHTML = '';
+                            preview.append(image);
+
+
+
+
+
+                            $("#uploadFile-file-error").hide();
+
+                        } else {
+
+                            let preview = document.getElementById('divPrevio'),
+
+                                image = document.createElement('img');
+                            image.height = 150;
+                            image.src = "../../img/perfil_foto_160x160.jpg";
+                            preview.innerHTML = '';
+                            preview.append(image);
+
+
+                            document.getElementById("fileUpload").value = '';
+                            $("#uploadFile-file-error").show();
+                            $("#uploadFile-file-error").html("Solo se permite imagenes");
+                        }
+
+
+                    };
+                };
+
+
+                $("#fileUpload").hide();
+
+                $("#aSubirFoto").on("click", function () {
+
+                    $('#fileUpload').trigger('click');
+
+                });
+
 
             });
 

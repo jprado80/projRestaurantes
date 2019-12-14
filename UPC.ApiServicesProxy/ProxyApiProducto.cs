@@ -90,7 +90,50 @@ namespace UPC.ApiServicesProxy
 
         }
 
+        public ListarProductoResponse ListarProductoPorUsuario(long CodigoUsuario)
+        {
 
+            ListarProductoResponse response = new ListarProductoResponse();
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(ServicioCommon.Parametros.URLServicio);
+                var responseTask = client.GetAsync("api/ProductosPorUsuario/" + CodigoUsuario);
+                responseTask.Wait();
+                var result = responseTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    var colaboradorResponse = result.Content.ReadAsStringAsync().Result;
+                    response = JsonConvert.DeserializeObject<ListarProductoResponse>(colaboradorResponse);
+                }
+            }
+
+            return response;
+
+        }
+
+
+        public LeerProductoResponse LeerProducto(long id)
+        {
+
+            LeerProductoResponse response = new LeerProductoResponse();
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(ServicioCommon.Parametros.URLServicio);
+                var responseTask = client.GetAsync("api/Producto/" + id);
+                responseTask.Wait();
+                var result = responseTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    var colaboradorResponse = result.Content.ReadAsStringAsync().Result;
+                    response = JsonConvert.DeserializeObject<LeerProductoResponse>(colaboradorResponse);
+                }
+            }
+
+            return response;
+
+        }
 
     }
 }

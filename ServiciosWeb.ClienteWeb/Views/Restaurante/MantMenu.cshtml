@@ -1,0 +1,51 @@
+﻿@model ServiciosWeb.Dominio.Modelo.MantenimientoMenuModel
+
+
+@using (Html.BeginForm("MantMenu", "Restaurante", FormMethod.Post, new { id = "frmMenu", @class = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NroMenu, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.NroMenu, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NroMenu, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DescripcionMenu, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.DescripcionMenu, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DescripcionMenu, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+
+            <center>
+                <button type="submit" id="btnAgregarMenu" class="btn btn-primary btn-circle btn-sm"> + </button>
+                <button type="button" id="btnRemoverMenu" class="btn btn-secondary btn-circle btn-sm" onclick="EliminarMenu()"> - </button>
+            </center>
+        </div>
+
+    </div>
+
+
+}
+
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+}

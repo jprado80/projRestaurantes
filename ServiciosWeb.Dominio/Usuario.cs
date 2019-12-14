@@ -50,6 +50,8 @@ namespace ServiciosWeb.Dominio
         public string usua_direc { get; set; }
         public string usua_refedirec { get; set; }
 
-       
+        public string usua_rutaiamgen { get; set; }
+
+
     }
 }

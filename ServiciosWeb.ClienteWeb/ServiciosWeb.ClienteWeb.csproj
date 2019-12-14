@@ -169,6 +169,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="img\perfil_foto_160x160.jpg" />
     <Content Include="Plugins\datatables\dataTables.bootstrap.css" />
     <Content Include="Plugins\datatables\dataTables.bootstrap.js" />
     <Content Include="Plugins\datatables\dataTables.bootstrap.min.js" />
@@ -453,9 +454,12 @@
     <Content Include="Views\Restaurante\MantenimientoListaPrecio.cshtml" />
     <Content Include="Views\Restaurante\GestionMenu.cshtml" />
     <Content Include="ServiciosWeb.ClienteWeb.snk" />
+    <Content Include="Views\Restaurante\MantMenu.cshtml" />
+    <Content Include="Views\Restaurante\MantMenuDetalle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="File\Foto\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

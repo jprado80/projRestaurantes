@@ -9,13 +9,19 @@ using System.Threading.Tasks;
 
 namespace ServiciosWeb.Dominio.Modelo
 {
-   public  class GestionMenuModel
+   public  class MantenimientoMenuModel
     {
 
 
-        public MantenimientoMenuModel Menu { get; set; }
-        public MantenimientoMenuDetalleModel MenuDetalle { get; set; }
+        [DisplayName("Nro")]
+        
+        public string NroMenu { get; set; }
 
+        [DisplayName("Descripcion (*)")]
+        [Required(ErrorMessage = "Campo obligatorio")]
+        public string DescripcionMenu { get; set; }
 
+        
+       
     }
 }

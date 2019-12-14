@@ -8,6 +8,7 @@ using ServiciosWeb.Dominio.Response;
 using ServiciosWeb.DominioResponse;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -136,17 +137,24 @@ namespace ServiciosWeb.ClienteWeb.Controllers
         public ActionResult GestionMenu()
         {
             GestionMenuModel model = new GestionMenuModel();
-            ProxyApiComun proxyComun = new ProxyApiComun();
-            var responseTipoComun = proxyComun.ObtenerTipoComida();
+            model.Menu = new MantenimientoMenuModel();
+            model.MenuDetalle = new MantenimientoMenuDetalleModel();
 
-            model.ListProducto = new List<SelectListItemCustom>();
+            SeguridadMVC.Seguridad.SessionWrapper sesionSeguridad = new SeguridadMVC.Seguridad.SessionWrapper();
 
-            foreach (var item in responseTipoComun.TipoComida)
+
+            ProxyApiProducto proxyComun = new ProxyApiProducto();
+
+            var responseProducto = proxyComun.ListarProductoPorUsuario(sesionSeguridad.Usuario.Idusuario);
+
+            model.MenuDetalle.ListProducto = new List<SelectListItemCustom>();
+
+            foreach (var item in responseProducto.Hits)
             {
-                model.ListProducto.Add(new SelectListItemCustom()
+                model.MenuDetalle.ListProducto.Add(new SelectListItemCustom()
                 {
-                    Text = item.tico_descrip,
-                    Value = item.tico_id.ToString()
+                    Text = item.prod_descrip,
+                    Value = item.prod_id.ToString()
                 });
             }
 
@@ -154,6 +162,109 @@ namespace ServiciosWeb.ClienteWeb.Controllers
 
             return View(model);
         }
+
+
+        public PartialViewResult MantMenu(MantenimientoMenuModel model)
+        {
+
+
+
+            if (ModelState.IsValid)
+            {
+
+                SeguridadMVC.Seguridad.SessionWrapper sesionUsuario = new SeguridadMVC.Seguridad.SessionWrapper();
+
+                ProxyApiUsuario proxyUsuario = new ProxyApiUsuario();
+                var responseUsuario = proxyUsuario.ObtenerUsuario(sesionUsuario.Usuario.Idusuario);
+
+
+                ProxyApiRestaurante proxyRestaurante = new ProxyApiRestaurante();
+                MenuRegistrarRequest request = new MenuRegistrarRequest();
+                request.Menu = new Menu();
+                request.Menu.menu_nombre = model.DescripcionMenu;
+                request.Menu.menu_estado = false;
+                request.Menu.menu_publicado = false;
+                request.Menu.menu_ruc = responseUsuario.Restaurante.rest_ruc;
+
+
+
+                var response = proxyRestaurante.RegistrarMenu(request);
+
+
+
+
+            }
+            else
+            {
+
+
+            }
+
+
+
+            return PartialView(model);
+
+        }
+
+
+        public PartialViewResult MantMenuDetalle(MantenimientoMenuDetalleModel model)
+        {
+
+            SeguridadMVC.Seguridad.SessionWrapper sesionSeguridad = new SeguridadMVC.Seguridad.SessionWrapper();
+
+
+            ProxyApiProducto proxyProducto = new ProxyApiProducto();
+
+            var responseProducto = proxyProducto.ListarProductoPorUsuario(sesionSeguridad.Usuario.Idusuario);
+
+
+            var objProducto = proxyProducto.LeerProducto(model.CodigoProducto);
+
+
+            model.ListProducto = new List<SelectListItemCustom>();
+
+            foreach (var item in responseProducto.Hits)
+            {
+                model.ListProducto.Add(new SelectListItemCustom()
+                {
+                    Text = item.prod_descrip,
+                    Value = item.prod_id.ToString()
+                });
+            }
+
+
+
+
+            if (ModelState.IsValid)
+            {
+                if (model.CodigoMenu != 0)
+                {
+
+                    ProxyApiRestaurante objProxy = new ProxyApiRestaurante();
+                    MenuDetalleRegistrarRequest request = new MenuDetalleRegistrarRequest();
+                    request.MenuDetalle = new MenuDetalle();
+                    request.MenuDetalle.mede_disponible = true;
+                    request.MenuDetalle.mede_precio = objProducto.Hit.prod_precio;
+                    request.MenuDetalle.menu_id = model.CodigoMenu;
+                    request.MenuDetalle.prod_id = model.CodigoProducto;
+
+                    var response = objProxy.RegistrarMenuDetalle(request);
+
+
+                }
+            }
+            else { 
+            
+            
+            }
+
+
+
+
+           return PartialView(model);
+
+        }
+
 
         // GET: Restaurante/Details/5
         public ActionResult Details(int id)
@@ -194,6 +305,7 @@ namespace ServiciosWeb.ClienteWeb.Controllers
             model.usua_refedirec = usuarioResponse.Usuario.usua_refedirec;
             model.usua_direc = usuarioResponse.Usuario.usua_direc;
             model.dist_id = usuarioResponse.Usuario.dist_id;
+            model.usua_rutaimagen = usuarioResponse.Usuario.usua_rutaiamgen;
 
 
 
@@ -293,10 +405,16 @@ namespace ServiciosWeb.ClienteWeb.Controllers
 
         // POST: Restaurante/Create
         [HttpPost]
-        public ActionResult MisDatos(UsuarioRestauranteModel view, FormCollection formCollection)
+        public ActionResult MisDatos(UsuarioRestauranteModel model, FormCollection formCollection)
         {
 
-            UsuarioRestauranteModel model = view;
+
+            string vRutaParcial = "/File/Foto/";
+            string archivo = "";
+            string vRuta;
+            string vExtension;
+
+            
 
             model.Distritos = new List<SelectListItemCustom>();
             model.EspecialidadTipo = new List<SelectListItemCustom>();
@@ -426,12 +544,57 @@ namespace ServiciosWeb.ClienteWeb.Controllers
                 else
                 {
 
+
+
+
+
+
+
+                    if (model.uploadFile != null)
+                    {
+                        if (model.uploadFile.ContentLength > 5242880)
+                        {
+
+                            ProcesoResponse resonseStatus = new ProcesoResponse();
+                            resonseStatus.estado = -1;
+                            resonseStatus.mensaje = "No debe exceder los 5MB";
+                            
+
+
+                            
+                            return RedirectToAction("NuevoColaborador", new { });
+                        }
+                    }
+
+
+
+
+                    if (model.uploadFile != null)
+                    {
+
+                        vExtension = Path.GetExtension(model.uploadFile.FileName);
+                        archivo = (DateTime.Now.ToString("yyyyMMddHHmmss") + "-" + model.rest_ruc).ToLower() + vExtension;
+                        vRutaParcial = vRutaParcial + archivo;
+                        vRuta = System.Web.Hosting.HostingEnvironment.MapPath("~" + vRutaParcial);
+
+
+                        model.uploadFile.SaveAs(vRuta);
+
+
+
+                        model.usua_rutaimagen = vRutaParcial;
+                    }
+
+
+
+
                     RegistrarUsuarioRestauranteRequest request = new RegistrarUsuarioRestauranteRequest();
                     request.Usuario = new Usuario();
                     request.Usuario.usua_id = model.usua_id;
                     request.Usuario.dist_id = model.dist_id;
                     request.Usuario.usua_refedirec = model.usua_refedirec;
                     request.Usuario.usua_direc = model.usua_direc;
+                    request.Usuario.usua_rutaiamgen = model.usua_rutaimagen;
 
 
                     request.Restaurante = new Restaurante();
@@ -556,6 +719,71 @@ namespace ServiciosWeb.ClienteWeb.Controllers
 
             return jsonResult;
         }
+
+
+        public JsonResult EliminarMenuDetalle(string datos)
+        {
+            ProcesoResponse respuesta = new ProcesoResponse();
+            ProxyApiRestaurante proxyRestaurante = new ProxyApiRestaurante();
+
+            foreach (string item in datos.Split(';'))
+            {
+                if (item != string.Empty)
+                {
+                    proxyRestaurante.EliminarMenuDetalle(Convert.ToInt32(item));
+                }
+
+            }
+
+            var jsonResult = new JsonResult { JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            jsonResult.Data = respuesta;
+
+            return jsonResult;
+        }
+
+
+        public JsonResult EliminarMenu(string datos)
+        {
+            ProcesoResponse respuesta = new ProcesoResponse();
+            ProxyApiRestaurante proxyRestaurante = new ProxyApiRestaurante();
+
+            foreach (string item in datos.Split(';'))
+            {
+                if (item != string.Empty)
+                {
+                    proxyRestaurante.EliminarMenu(Convert.ToInt32(item));
+                }
+
+            }
+
+            var jsonResult = new JsonResult { JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            jsonResult.Data = respuesta;
+
+            return jsonResult;
+        }
+
+
+
+        public JsonResult PublicarMenu(string datos, bool select)
+        {
+            ProcesoResponse respuesta = new ProcesoResponse();
+            ProxyApiRestaurante proxyRestaurante = new ProxyApiRestaurante();
+
+            foreach (string item in datos.Split(';'))
+            {
+                if (item != string.Empty)
+                {
+                    proxyRestaurante.MenuPublicar(Convert.ToInt32(item),select);
+                }
+
+            }
+
+            var jsonResult = new JsonResult { JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            jsonResult.Data = respuesta;
+
+            return jsonResult;
+        }
+
         public JsonResult LitaPrecios(FormCollection frm)
         {
             string iDisplayLength = HttpContext.Request.Form["iDisplayLength"];
@@ -712,5 +940,80 @@ namespace ServiciosWeb.ClienteWeb.Controllers
         }
 
 
+
+        public JsonResult LitaMenuDetalle(FormCollection frm)
+        {
+            string iDisplayLength = HttpContext.Request.Form["iDisplayLength"];
+            string iDisplayStart = HttpContext.Request.Form["iDisplayStart"];
+            string sEcho = HttpContext.Request.Form["sEcho"];
+            string sData = HttpContext.Request.Form["sData"];
+
+            ResponseOperacionBE o_ResponseOperacion = new ResponseOperacionBE();
+            o_ResponseOperacion.OperacionType = new OperacionType();
+            o_ResponseOperacion.OperacionType.codigo_operacion = "LISTAR_MENU_DETALLE";
+            o_ResponseOperacion.OperacionType.nombre_operacion = "Listar menu detalle";
+            o_ResponseOperacion.OperacionType.mensaje_operacion = "Listado con éxito";
+            o_ResponseOperacion.OperacionType.estado_operacion = "0";
+
+            RequestOperacionBE Request = new RequestOperacionBE();
+            Request = new JavaScriptSerializer().Deserialize<RequestOperacionBE>(sData);
+            Request.DataTableRquest = new DataTableRequest();
+
+            Request.DataTableRquest.iDisplayLength = Convert.ToInt32(iDisplayLength);
+            Request.DataTableRquest.iDisplayStart = Convert.ToInt32(iDisplayStart);
+            Request.DataTableRquest.sEcho = sEcho;
+
+
+            DataTableResponse ResponseOperacion = new DataTableResponse();
+            int nIdIniComp = Request.DataTableRquest.iDisplayStart;
+            int nIdFinComp = Request.DataTableRquest.iDisplayLength;
+
+            nIdFinComp = nIdIniComp + nIdFinComp;
+            nIdIniComp = nIdIniComp + 1;
+
+            try
+            {
+
+               
+                var deserailizar = new JsonSerializerSettings();
+                deserailizar.DateFormatHandling = DateFormatHandling.MicrosoftDateFormat;
+
+                deserailizar.Culture = System.Threading.Thread.CurrentThread.CurrentCulture;
+                var parameter = Newtonsoft.Json.JsonConvert.DeserializeObject<ListarMenuDetalleRequest>(Request.OperacionType.Objeto1.ToString(), deserailizar);
+
+                parameter.prm_reginicio = nIdIniComp;
+                parameter.prm_regfin = nIdFinComp;
+
+
+
+                
+
+                ProxyApiRestaurante proxyRestauramte = new ProxyApiRestaurante();
+
+                ListaMenuDetalleResponse result = proxyRestauramte.ListarMenuDetalle(parameter);
+
+
+
+                ResponseOperacion.aaData = result.Hits;
+                ResponseOperacion.iTotalRecords = Request.DataTableRquest.iDisplayLength;
+                ResponseOperacion.iTotalDisplayRecords = result.totalregistros;
+                ResponseOperacion.sEcho = Request.DataTableRquest.sEcho;
+
+                o_ResponseOperacion.DataTableResponse = ResponseOperacion;
+
+            }
+            catch (Exception err)
+            {
+                o_ResponseOperacion.OperacionType.mensaje_operacion = err.Message;
+                o_ResponseOperacion.OperacionType.estado_operacion = "-1";
+            }
+
+            var jsonResult = new JsonResult { JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            jsonResult.Data = o_ResponseOperacion;
+            return jsonResult;
+        }
+
+
     }
 }
+

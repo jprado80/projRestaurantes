@@ -53,6 +53,7 @@ namespace ServiciosWeb.WebApi.Controllers
                     objresponse.Usuario.usua_dni = usuario.usua_dni;
                     objresponse.Usuario.usua_direc = usuario.usua_direc;
                     objresponse.Usuario.usua_refedirec = usuario.usua_refedirec;
+                    objresponse.Usuario.usua_rutaiamgen = usuario.usua_rutaimagen;
 
                     var tDistrito = BD.t_distrito.FirstOrDefault(x => x.dist_id == usuario.dist_id);
                     if (tDistrito != null)
@@ -410,6 +411,10 @@ namespace ServiciosWeb.WebApi.Controllers
                 usuarioActualizar.usua_direc = request.Usuario.usua_direc;
                 usuarioActualizar.dist_id = request.Usuario.dist_id;
                 usuarioActualizar.usua_refedirec = request.Usuario.usua_refedirec;
+                if (request.Usuario.usua_rutaiamgen != null) {
+                    usuarioActualizar.usua_rutaimagen = request.Usuario.usua_rutaiamgen;
+                }
+                
 
                 var tRestuarante = BD.t_restaurante.FirstOrDefault(x => x.usua_id == request.Usuario.usua_id);
                 tRestuarante.rest_delivery = request.Restaurante.rest_delivery;

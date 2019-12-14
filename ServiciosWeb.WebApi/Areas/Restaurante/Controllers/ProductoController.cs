@@ -15,16 +15,143 @@ namespace ServiciosWeb.WebApi.Areas.Restaurante.Controllers
     {
         BDRestaurantesEntities BD = new BDRestaurantesEntities();
 
-        // GET: api/Producto
-        public IEnumerable<string> Get()
+        public IHttpActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            ListarProductoResponse objresponse = new ListarProductoResponse();
+
+            objresponse.status = new ProcesoResponse();
+            objresponse.Hits = new List<Dominio.Producto>();
+
+            try
+            {
+                var query = BD.t_producto.ToList();
+
+                foreach (var item in query)
+                {
+                    objresponse.Hits.Add(new Dominio.Producto()
+                    {
+                        prod_descrip = item.prod_descrip,
+                        prod_nombre = item.prod_nombre,
+                        prod_id = item.prod_id,
+                        prod_precio = item.prod_precio,
+                        rest_ruc = item.prod_nombre,
+                        tico_descrip = item.prod_nombre,
+                        tico_id = item.tico_id
+                    });
+                }
+
+                objresponse.totalregistros = query.Count();
+                objresponse.status.estado = 0;
+                objresponse.status.mensaje = "Info de menu";
+
+            }
+            catch (Exception err)
+            {
+                objresponse.status.estado = -1;
+                objresponse.status.mensaje = err.Message;
+                throw err;
+            }
+
+            return Ok(objresponse);
         }
 
-        // GET: api/Producto/5
-        public string Get(int id)
+        public IHttpActionResult Get(int id)
         {
-            return "value";
+
+            LeerProductoResponse objresponse = new LeerProductoResponse();
+
+            objresponse.status = new ProcesoResponse();
+            objresponse.Hit = new Dominio.Producto();
+
+            try
+            {
+              
+
+               
+                    var item = BD.t_producto.Where(x => x.prod_id==id).FirstOrDefault();
+
+                
+                        objresponse.Hit =new Dominio.Producto()
+                        {
+                            prod_descrip = item.prod_nombre,
+                            prod_nombre = item.prod_nombre,
+                            prod_id = item.prod_id,
+                            prod_precio = item.prod_precio,
+                            rest_ruc = item.prod_nombre,
+                            tico_descrip = item.prod_nombre,
+                            tico_id = item.tico_id
+                        };
+                    
+
+                
+                objresponse.status.estado = 0;
+                objresponse.status.mensaje = "Info de menu";
+
+            }
+            catch (Exception err)
+            {
+                objresponse.status.estado = -1;
+                objresponse.status.mensaje = err.Message;
+                throw err;
+            }
+
+            return Ok(objresponse);
+        }
+
+        [HttpGet]
+        [Route("api/ProductosPorUsuario/{id}")]
+        public IHttpActionResult ProductosPorUsuario(int id)
+        {
+
+            ListarProductoResponse objresponse = new ListarProductoResponse();
+
+            objresponse.status = new ProcesoResponse();
+            objresponse.Hits = new List<Dominio.Producto>();
+
+            try
+            {
+                var restaurante = BD.t_restaurante.Where(z => z.usua_id == id).FirstOrDefault();
+
+
+                if (restaurante != null)
+                {
+                    var query = BD.t_producto.Where(x => x.rest_ruc == restaurante.rest_ruc);
+
+                    foreach (var item in query)
+                    {
+                        objresponse.Hits.Add(new Dominio.Producto()
+                        {
+                            prod_descrip = item.prod_descrip,
+                            prod_nombre = item.prod_nombre,
+                            prod_id = item.prod_id,
+                            prod_precio = item.prod_precio,
+                            rest_ruc = item.prod_nombre,
+                            tico_descrip = item.prod_nombre,
+                            tico_id = item.tico_id
+                        });
+                    }
+
+                }
+
+
+
+
+
+
+
+                objresponse.totalregistros = objresponse.Hits.Count();
+                objresponse.status.estado = 0;
+                objresponse.status.mensaje = "Info de menu";
+
+            }
+            catch (Exception err)
+            {
+                objresponse.status.estado = -1;
+                objresponse.status.mensaje = err.Message;
+                throw err;
+            }
+
+            return Ok(objresponse);
         }
 
         //INSERCIÖN
